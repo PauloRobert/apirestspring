@@ -1,14 +1,23 @@
 package model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 
 //Classe de entidade de banco de dados
 @Entity (name = "usuario")
 public class UsuarioModel {
 
+
+    @Id
     public Integer codigo;
+    @Column(nullable = false, length = 50)
     public String nome;
+
+    @Column(nullable = false, length = 10)
     public  String login;
+
+    @Column(nullable = false, length = 10)
     public  String senha;
 
     public Integer getCodigo() {
