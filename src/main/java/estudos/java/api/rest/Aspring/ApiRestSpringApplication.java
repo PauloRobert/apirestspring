@@ -1,4 +1,4 @@
-package estudos.java.api.rest.spring;
+package estudos.java.api.rest.Aspring;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

@@ -1,4 +1,4 @@
-package model;
+package estudos.java.api.rest.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
