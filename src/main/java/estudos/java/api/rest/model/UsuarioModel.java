@@ -7,8 +7,6 @@ import javax.persistence.*;
 //Classe de entidade de banco de dados
 @Entity (name = "usuario")
 public class UsuarioModel {
-
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Integer codigo;
