@@ -3,6 +3,7 @@ package estudos.java.api.rest.controller;
 import estudos.java.api.rest.model.UsuarioModel;
 import estudos.java.api.rest.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 @RestController
@@ -12,6 +13,7 @@ public class UsuarioController {
     private UsuarioRepository repository;
 
     @GetMapping(path = "/api/usuario/{codigo}")
+    @ResponseStatus(HttpStatus.OK)
     public ResponseEntity consultar(@PathVariable("codigo") Integer codigo) {
         return repository.findById(codigo)
                 .map(record -> ResponseEntity.ok().body(record))
@@ -19,6 +21,7 @@ public class UsuarioController {
     }
 
     @PostMapping(path = "/api/usuario/salvar")
+    @ResponseStatus(HttpStatus.OK)
     public UsuarioModel salvar(@RequestBody UsuarioModel usuario) {
         return repository.save(usuario);
     }
