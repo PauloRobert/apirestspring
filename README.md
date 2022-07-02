@@ -9,3 +9,5 @@ Api rest com SpringBoot, utilizando banco de dados H2.
 - Cadastrar usuários.
 - Listar Usuários
 - Listar Usuários por código/ID
+
+Obs.: Em construção (07/2022)
