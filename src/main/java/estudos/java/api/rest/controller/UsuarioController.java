@@ -26,8 +26,14 @@ public class UsuarioController {
     @PostMapping(path = "/api/usuario/salvar")
     @ResponseStatus(HttpStatus.OK)
     public UsuarioModel salvar(@RequestBody UsuarioModel usuario) {
-        return repository.save(usuario);
+        try {
+            return repository.save(usuario);
+        } catch (Exception msg) {
+            System.out.println("Erro interno");
+        }
+        return usuario;
     }
+
 
     @GetMapping(path = "/api/usuario/listar")
     @ResponseBody
