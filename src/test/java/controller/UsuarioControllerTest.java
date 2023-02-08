@@ -35,7 +35,7 @@ class UsuarioControllerTest {
         when(repository.findById(codigo)).thenReturn(Optional.of(usuario));
         ResponseEntity<UsuarioModel> result = usuarioController.consultar(codigo);
 
-        verify(repository, times(2)).findById(codigo);
+        verify(repository, times(1)).findById(codigo);
         assertEquals(HttpStatus.OK, result.getStatusCode());
         assertEquals(usuario, result.getBody());
     }
