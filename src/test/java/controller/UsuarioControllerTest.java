@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
@@ -30,7 +31,9 @@ class UsuarioControllerTest {
     @Test
     @DisplayName("CT01 - Consultar um ID")
     void testConsultar() {
-        Integer codigo = 1;
+        Random rand = new Random();
+        int codigo = 100;
+        //Integer codigo = 1;
         UsuarioModel usuario = new UsuarioModel();
         usuario.setCodigo(codigo);
 
@@ -44,7 +47,8 @@ class UsuarioControllerTest {
 
     @Test
     void testConsultar_NotFound() {
-        Integer codigo = 1;
+        Random rand = new Random();
+        int codigo = 100;
 
         when(repository.findById(codigo)).thenReturn(Optional.empty());
         ResponseEntity result = usuarioController.consultar(codigo);
