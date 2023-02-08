@@ -3,6 +3,7 @@ package controller;
 import estudos.java.api.rest.controller.UsuarioController;
 import estudos.java.api.rest.model.UsuarioModel;
 import estudos.java.api.rest.repository.UsuarioRepository;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -27,6 +28,7 @@ class UsuarioControllerTest {
     private UsuarioController usuarioController;
 
     @Test
+    @DisplayName("CT01 - Consultar um ID")
     void testConsultar() {
         Integer codigo = 1;
         UsuarioModel usuario = new UsuarioModel();
