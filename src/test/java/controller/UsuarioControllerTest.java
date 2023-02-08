@@ -3,6 +3,7 @@ package controller;
 import estudos.java.api.rest.controller.UsuarioController;
 import estudos.java.api.rest.model.UsuarioModel;
 import estudos.java.api.rest.repository.UsuarioRepository;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -14,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
@@ -27,8 +29,11 @@ class UsuarioControllerTest {
     private UsuarioController usuarioController;
 
     @Test
+    @DisplayName("CT01 - Consultar um ID")
     void testConsultar() {
-        Integer codigo = 1;
+        Random rand = new Random();
+        int codigo = 100;
+        //Integer codigo = 1;
         UsuarioModel usuario = new UsuarioModel();
         usuario.setCodigo(codigo);
 
@@ -42,7 +47,8 @@ class UsuarioControllerTest {
 
     @Test
     void testConsultar_NotFound() {
-        Integer codigo = 1;
+        Random rand = new Random();
+        int codigo = 100;
 
         when(repository.findById(codigo)).thenReturn(Optional.empty());
         ResponseEntity result = usuarioController.consultar(codigo);
