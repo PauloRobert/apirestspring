@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>estudos.java</groupId>
 	<artifactId>api-rest-spring</artifactId>
-	<version>1.0.4-SNAPSHOT</version>
+	<version>1.0.5-SNAPSHOT</version>
 	<name>Api Rest Spring</name>
 	<description>Api Rest Spring</description>
 	<properties>
@@ -91,7 +91,6 @@
 			<artifactId>jacoco-maven-plugin</artifactId>
 			<version>0.8.8</version>
 		</dependency>
-
 	</dependencies>
 
 	<build>
