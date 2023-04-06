@@ -43,4 +43,17 @@ public class UsuarioController {
         return usuario;
     }
 
+    @DeleteMapping(path = "/api/usuario/{codigo}")
+    public ResponseEntity<String> deletar(@PathVariable("codigo") Integer codigo) {
+        Optional<UsuarioModel> usuarioOpt = repository.findById(codigo);
+        if (usuarioOpt.isPresent()) {
+            UsuarioModel usuario = usuarioOpt.get();
+            String nomeUsuario = usuario.getNome();
+            repository.delete(usuario);
+            return ResponseEntity.ok("Usuário " + nomeUsuario + " deletado com sucesso!");
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
 }
