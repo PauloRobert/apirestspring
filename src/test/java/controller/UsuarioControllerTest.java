@@ -64,7 +64,7 @@ class UsuarioControllerTest {
         usuarios.add(new UsuarioModel());
 
         when(repository.findAll()).thenReturn(usuarios);
-        ResponseEntity<List<UsuarioModel>> result = usuarioController.listaUsuario();
+        ResponseEntity<List<UsuarioModel>> result = usuarioController.listar();
 
         verify(repository, times(1)).findAll();
         assertEquals(HttpStatus.OK, result.getStatusCode());
@@ -76,7 +76,7 @@ class UsuarioControllerTest {
         UsuarioModel usuario = new UsuarioModel();
 
         when(repository.save(usuario)).thenReturn(usuario);
-        UsuarioModel result = usuarioController.salvar(usuario);
+        UsuarioModel result = usuarioController.salvar(usuario).getBody();
 
         verify(repository, times(1)).save(usuario);
         assertEquals(usuario, result);
