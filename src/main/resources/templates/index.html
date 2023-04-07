@@ -70,6 +70,10 @@
             </div>
         </div>
     </div>
+    <div class="alert alert-success alert-dismissible fade show d-none" role="alert" id="alerta-sucesso">
+        Cliente cadastrado com sucesso!
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
 </div>
 
 <!-- Adicionar os arquivos JS do Bootstrap -->
@@ -105,33 +109,28 @@
         var login = document.getElementById("login").value;
         var senha = document.getElementById("senha").value;
 
-        if (!nome || !login || !senha) {
-            alert("Por favor, preencha todos os campos!");
-            return;
-        }
-
-        var dados = {
+        var data = {
             nome: nome,
             login: login,
             senha: senha
         };
 
         $.ajax({
-            url: "http://localhost:8080/api/usuario/salvar",
             type: "POST",
-            data: JSON.stringify(dados),
-            contentType: "application/json",
+            url: "http://localhost:8080/api/usuario/salvar",
+            data: JSON.stringify(data),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
             success: function() {
-                alert("Cliente cadastrado com sucesso!");
-                document.getElementById("nome").value = "";
-                document.getElementById("login").value = "";
-                document.getElementById("senha").value = "";
+                $("#modalCadastro").modal("hide"); // esconde o modal de cadastro
+                $("#alerta-sucesso").removeClass("d-none"); // mostra o alerta de sucesso
             },
             error: function() {
                 alert("Ocorreu um erro ao cadastrar o cliente!");
             }
         });
     }
+
 </script>
 
 </html>
