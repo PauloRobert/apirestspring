@@ -20,14 +20,53 @@
             <p class="text-center">Utilize nossa API para cadastrar, atualizar e buscar clientes.</p>
             <div class="d-grid gap-2 col-md-6 mx-auto mt-4">
                 <a href="#" class="btn btn-primary">Cadastrar novo cliente</a>
+                <button type="button" class="btn btn-secondary" onclick="atualizarTabela()">Listar Clientes Cadastrados</button>
+            </div>
+            <div class="table-responsive mt-5">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Código</th>
+                        <th>Nome</th>
+                        <th>Login</th>
+                        <th>Senha</th>
+                    </tr>
+                    </thead>
+                    <tbody id="tabela-clientes">
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
 </div>
 
 <!-- Adicionar os arquivos JS do Bootstrap -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-mHxT+5ZFxXp7STH+CVJrLw6/J20UyjgkLfYFTJhCYMIXyzdNLWZMnBl+pjKmt2Q5w6SdUkQjK5J5tr5OnUsx4g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.3/umd/popper.min.js" integrity="sha512-rPXbWUCm8mCNhBzCfjSNfLl/gC9FyyhKbupK2Bwv+lzWj1HsLO+TBsGQIaTnpTtEdX8L+1NSavTgHZJv1DBWdQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/js/bootstrap.min.js" integrity="sha512-1PRkUjJ6WsPj6zbgB+U96Gr6zgD09jKpJvgHKbFPTf96l2Qg/BegBrhjWTTy8hrJjzpx2sM/qcpHPFRW9X8xjA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"  crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.3/umd/popper.min.js"  crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/js/bootstrap.min.js"  crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </body>
+
+
+<script>
+    function atualizarTabela() {
+        fetch('http://localhost:8080/api/usuario/listar')
+            .then(response => response.json())
+            .then(data => {
+                let tabela = document.getElementById('tabela-clientes');
+                tabela.innerHTML = '';
+                data.forEach(cliente => {
+                    let linha = document.createElement('tr');
+                    linha.innerHTML = `
+          <td>${cliente.codigo}</td>
+          <td>${cliente.nome}</td>
+          <td>${cliente.login}</td>
+          <td>${cliente.senha}</td>
+        `;
+                    tabela.appendChild(linha);
+                });
+            })
+            .catch(error => console.error(error));
+    }
+
+</script>
 </html>
