@@ -57,8 +57,10 @@ public class UsuarioController {
                 return ResponseEntity.badRequest().body("Já existe um usuário com este login");
             }
 
-            UsuarioModel usuarioSalvo = repository.save(usuario);
+            repository.save(usuario);
+
             return ResponseEntity.ok().body("Usuário cadastrado com sucesso!");
+
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
