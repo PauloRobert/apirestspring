@@ -98,7 +98,7 @@ class UsuarioControllerTest {
         when(repository.save(any())).thenReturn(usuarioModel);
 
         // when
-        ResponseEntity<UsuarioModel> responseEntity = usuarioController.salvar(usuarioModel);
+        ResponseEntity<?> responseEntity = usuarioController.salvar(usuarioModel);
 
         // then
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
@@ -116,7 +116,7 @@ class UsuarioControllerTest {
         when(repository.save(any())).thenThrow(new RuntimeException());
 
         // when
-        ResponseEntity<UsuarioModel> responseEntity = usuarioController.salvar(usuarioModel);
+        ResponseEntity<?> responseEntity = usuarioController.salvar(usuarioModel);
 
         // then
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, responseEntity.getStatusCode());
