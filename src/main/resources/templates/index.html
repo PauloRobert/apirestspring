@@ -55,8 +55,8 @@
                 return;
             }
 
-            var tabela = document.getElementById("tabelaClientes");
-            tabela.innerHTML = "<tr><th>Código</th><th>Nome</th><th>Login</th><th>Senha</th></tr>";
+            var tabela = document.getElementById("tabela-clientes");
+            tabela.innerHTML = "";
             for (var i = 0; i < data.length; i++) {
                 var codigo = data[i].codigo;
                 var nome = data[i].nome;
