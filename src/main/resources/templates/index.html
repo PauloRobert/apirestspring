@@ -49,23 +49,22 @@
 
 <script>
     function atualizarTabela() {
-        fetch('http://localhost:8080/api/usuario/listar')
-            .then(response => response.json())
-            .then(data => {
-                let tabela = document.getElementById('tabela-clientes');
-                tabela.innerHTML = '';
-                data.forEach(cliente => {
-                    let linha = document.createElement('tr');
-                    linha.innerHTML = `
-          <td>${cliente.codigo}</td>
-          <td>${cliente.nome}</td>
-          <td>${cliente.login}</td>
-          <td>${cliente.senha}</td>
-        `;
-                    tabela.appendChild(linha);
-                });
-            })
-            .catch(error => console.error(error));
+        $.getJSON("http://localhost:8080/api/usuario/listar", function(data) {
+            if (data.length === 0) {
+                alert("Não há clientes cadastrados");
+                return;
+            }
+
+            var tabela = document.getElementById("tabelaClientes");
+            tabela.innerHTML = "<tr><th>Código</th><th>Nome</th><th>Login</th><th>Senha</th></tr>";
+            for (var i = 0; i < data.length; i++) {
+                var codigo = data[i].codigo;
+                var nome = data[i].nome;
+                var login = data[i].login;
+                var senha = data[i].senha;
+                tabela.innerHTML += "<tr><td>" + codigo + "</td><td>" + nome + "</td><td>" + login + "</td><td>" + senha + "</td></tr>";
+            }
+        });
     }
 
 </script>
