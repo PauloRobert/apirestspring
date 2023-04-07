@@ -161,5 +161,47 @@ class UsuarioControllerTest {
         assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
         assertEquals("Usuário não encontrado, já deletado ou nunca cadastrado!", responseEntity.getBody());
     }
+
+    @Test
+    @DisplayName("Parametro de login existente como True")
+    void ParametroLoginExistenteTrue() {
+        // given
+        UsuarioModel usuarioModel = new UsuarioModel();
+        usuarioModel.setCodigo(1);
+        usuarioModel.setNome("João");
+        usuarioModel.setLogin("joao123");
+        usuarioModel.setSenha("senha123");
+
+        when(repository.existsByLogin(anyString())).thenReturn(false);
+        when(repository.save(any())).thenReturn(usuarioModel);
+
+        // when
+        ResponseEntity<String> responseEntity = usuarioController.salvar(usuarioModel);
+
+        // then
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        assertEquals("Usuário cadastrado com sucesso!", responseEntity.getBody());
+    }
+    @Test
+    @DisplayName("Parametro de login existente como False")
+    void ParametroLoginExistenteFalse(){
+        // given
+        UsuarioModel usuarioModel = new UsuarioModel();
+        usuarioModel.setCodigo(1);
+        usuarioModel.setNome("João");
+        usuarioModel.setLogin("joao123");
+        usuarioModel.setSenha("senha123");
+
+        when(repository.existsByLogin(anyString())).thenReturn(true);
+
+        // when
+        ResponseEntity<String> responseEntity = usuarioController.salvar(usuarioModel);
+
+        // then
+        assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
+        assertEquals("Já existe um usuário com este login", responseEntity.getBody());
+    }
+
+
 }
 
