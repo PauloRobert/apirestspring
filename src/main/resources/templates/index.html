@@ -124,6 +124,10 @@
             success: function() {
                 $("#modalCadastro").modal("hide"); // esconde o modal de cadastro
                 $("#alerta-sucesso").removeClass("d-none"); // mostra o alerta de sucesso
+                //Limpando os campos, após digitar
+                $("#nome").val('');
+                $("#login").val('');
+                $("#senha").val('');
             },
             error: function() {
                 alert("Ocorreu um erro ao cadastrar o cliente!");
