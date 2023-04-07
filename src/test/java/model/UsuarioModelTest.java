@@ -29,7 +29,6 @@ public class UsuarioModelTest {
         assertEquals(nome, usuario.getNome());
         assertEquals(login, usuario.getLogin());
         assertEquals(senha, usuario.getSenha());
-        System.out.println("Teste numero: " + codigo);
     }
 
     @Test

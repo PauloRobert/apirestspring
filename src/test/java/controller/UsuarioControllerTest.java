@@ -4,6 +4,7 @@ import estudos.java.api.rest.controller.UsuarioController;
 import estudos.java.api.rest.model.UsuarioModel;
 import estudos.java.api.rest.repository.UsuarioRepository;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -12,16 +13,19 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class UsuarioControllerTest {
+
     @Mock
     private UsuarioRepository repository;
 
@@ -29,57 +33,175 @@ class UsuarioControllerTest {
     private UsuarioController usuarioController;
 
     @Test
-    @DisplayName("CT01 - Consultar um ID")
-    void testConsultar() {
-        Random rand = new Random();
-        int codigo = 100;
-        //Integer codigo = 1;
-        UsuarioModel usuario = new UsuarioModel();
-        usuario.setCodigo(codigo);
+    @DisplayName("Consultar Usuario Pelo Código")
+    void deveConsultarUsuarioPeloCodigo() {
+        // given
+        UsuarioModel usuarioModel = new UsuarioModel();
+        usuarioModel.setCodigo(1);
+        usuarioModel.setNome("João");
 
-        when(repository.findById(codigo)).thenReturn(Optional.of(usuario));
-        ResponseEntity<UsuarioModel> result = usuarioController.consultar(codigo);
+        when(repository.findById(anyInt())).thenReturn(Optional.of(usuarioModel));
 
-        verify(repository, times(1)).findById(codigo);
-        assertEquals(HttpStatus.OK, result.getStatusCode());
-        assertEquals(usuario, result.getBody());
+        // when
+        ResponseEntity responseEntity = usuarioController.consultar(1);
+
+        // then
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        assertEquals(usuarioModel, responseEntity.getBody());
     }
 
     @Test
-    void testConsultar_NotFound() {
-        Random rand = new Random();
-        int codigo = 100;
+    @DisplayName("Usuário Inesxistente")
+    void deveRetornarNotFoundQuandoConsultarUsuarioInexistente() {
+        // given
+        when(repository.findById(anyInt())).thenReturn(Optional.empty());
 
-        when(repository.findById(codigo)).thenReturn(Optional.empty());
-        ResponseEntity result = usuarioController.consultar(codigo);
+        // when
+        ResponseEntity responseEntity = usuarioController.consultar(1);
 
-        verify(repository, times(1)).findById(codigo);
-        assertEquals(HttpStatus.NOT_FOUND, result.getStatusCode());
+        // then
+        assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
     }
 
     @Test
-    void testListaUsuario() {
-        List<UsuarioModel> usuarios = new ArrayList<>();
-        usuarios.add(new UsuarioModel());
-        usuarios.add(new UsuarioModel());
+    @DisplayName("Listar usuários cadastrados")
+    void deveListarUsuariosCadastrados() {
+        // given
+        UsuarioModel usuarioModel1 = new UsuarioModel();
+        usuarioModel1.setCodigo(1);
+        usuarioModel1.setNome("João");
+
+        UsuarioModel usuarioModel2 = new UsuarioModel();
+        usuarioModel2.setCodigo(2);
+        usuarioModel2.setNome("Maria");
+
+        List<UsuarioModel> usuarios = Arrays.asList(usuarioModel1, usuarioModel2);
 
         when(repository.findAll()).thenReturn(usuarios);
-        ResponseEntity<List<UsuarioModel>> result = usuarioController.listar();
 
-        verify(repository, times(1)).findAll();
-        assertEquals(HttpStatus.OK, result.getStatusCode());
-        assertEquals(usuarios, result.getBody());
+        // when
+        ResponseEntity<List<UsuarioModel>> responseEntity = usuarioController.listar();
+
+        // then
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        assertEquals(usuarios, responseEntity.getBody());
     }
 
     @Test
-    void testSalvar() {
-        UsuarioModel usuario = new UsuarioModel();
+    @DisplayName("Cadastrar usuário com sucesso")
+    void deveSalvarUsuarioComSucesso() {
+        // given
+        UsuarioModel usuarioModel = new UsuarioModel();
+        usuarioModel.setNome("João");
+        usuarioModel.setLogin("joao123");
+        usuarioModel.setSenha("senha123");
 
-        when(repository.save(usuario)).thenReturn(usuario);
-        UsuarioModel result = usuarioController.salvar(usuario).getBody();
+        when(repository.existsByLogin(anyString())).thenReturn(false);
+        when(repository.save(any())).thenReturn(usuarioModel);
 
-        verify(repository, times(1)).save(usuario);
-        assertEquals(usuario, result);
+        // when
+        ResponseEntity<?> responseEntity = usuarioController.salvar(usuarioModel);
 
+        // then
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        assertEquals("Usuário cadastrado com sucesso!", responseEntity.getBody());
     }
+
+    @Test
+    @DisplayName("Cadastrar usuário com erro")
+    void deveRetornarInternalServerErrorQuandoSalvarUsuarioComErro() {
+        // given
+        UsuarioModel usuarioModel = new UsuarioModel();
+        usuarioModel.setCodigo(1);
+        usuarioModel.setNome("João");
+
+        when(repository.save(any())).thenThrow(new RuntimeException());
+
+        // when
+        ResponseEntity<?> responseEntity = usuarioController.salvar(usuarioModel);
+
+        // then
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, responseEntity.getStatusCode());
+    }
+
+    @RepeatedTest(10)
+    @DisplayName("Deletar usuário com sucesso")
+    void deveDeletarUsuarioComSucesso() {
+        // Configuração do cenário de teste
+        int codigoUsuario = new Random().nextInt(1000) + 1;
+        List<String> nomesUsuarios = Arrays.asList("João", "Maria", "Pedro", "Ana");
+        String nomeUsuario = nomesUsuarios.get(new Random().nextInt(nomesUsuarios.size()));
+        UsuarioModel usuarioModel = new UsuarioModel();
+        usuarioModel.setCodigo(codigoUsuario);
+        usuarioModel.setNome(nomeUsuario);
+        when(repository.findById(codigoUsuario)).thenReturn(Optional.of(usuarioModel));
+        doNothing().when(repository).delete(usuarioModel);
+
+        // Execução do teste
+        ResponseEntity<String> responseEntity = usuarioController.deletar(codigoUsuario);
+
+        // Validação do resultado
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        assertEquals("Usuário " + nomeUsuario + " deletado com sucesso!", responseEntity.getBody());
+    }
+
+    @Test
+    @DisplayName("Usuário não encontrado ao deletar")
+
+    void deveRetornarUsuarioNaoEncontradoAoDeletar() {
+        int codigoUsuario = new Random().nextInt(1000) + 1;
+
+        // given
+        when(repository.findById(anyInt())).thenReturn(Optional.empty());
+
+        // when
+        ResponseEntity<String> responseEntity = usuarioController.deletar(codigoUsuario);
+
+        // then
+        assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
+        assertEquals("Usuário não encontrado, já deletado ou nunca cadastrado!", responseEntity.getBody());
+    }
+
+    @Test
+    @DisplayName("Parametro de login existente como True")
+    void ParametroLoginExistenteTrue() {
+        // given
+        UsuarioModel usuarioModel = new UsuarioModel();
+        usuarioModel.setCodigo(1);
+        usuarioModel.setNome("João");
+        usuarioModel.setLogin("joao123");
+        usuarioModel.setSenha("senha123");
+
+        when(repository.existsByLogin(anyString())).thenReturn(false);
+        when(repository.save(any())).thenReturn(usuarioModel);
+
+        // when
+        ResponseEntity<String> responseEntity = usuarioController.salvar(usuarioModel);
+
+        // then
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        assertEquals("Usuário cadastrado com sucesso!", responseEntity.getBody());
+    }
+    @Test
+    @DisplayName("Parametro de login existente como False")
+    void ParametroLoginExistenteFalse(){
+        // given
+        UsuarioModel usuarioModel = new UsuarioModel();
+        usuarioModel.setCodigo(1);
+        usuarioModel.setNome("João");
+        usuarioModel.setLogin("joao123");
+        usuarioModel.setSenha("senha123");
+
+        when(repository.existsByLogin(anyString())).thenReturn(true);
+
+        // when
+        ResponseEntity<String> responseEntity = usuarioController.salvar(usuarioModel);
+
+        // then
+        assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
+        assertEquals("Já existe um usuário com este login", responseEntity.getBody());
+    }
+
+
 }
+

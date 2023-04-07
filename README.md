@@ -7,7 +7,9 @@ Api rest com SpringBoot, utilizando banco de dados H2.
 ## Features
 
 - Cadastrar usuários.
-- Listar Usuários
+- Listar todos os usuários Usuários
 - Listar Usuários por código/ID
+- Deletar usuários por id
+- Pagina Web com função de listar e cadastrar usuários
 
-Obs.: Em construção (07/2022)
+Obs.: Em construção (04/2023)
