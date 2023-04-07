@@ -19,7 +19,8 @@
             <h1 class="text-center">Bem-vindo à nossa API de Cadastro de Clientes!</h1>
             <p class="text-center">Utilize nossa API para cadastrar, atualizar e buscar clientes.</p>
             <div class="d-grid gap-2 col-md-6 mx-auto mt-4">
-                <a href="#" class="btn btn-primary">Cadastrar novo cliente</a>
+                <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCadastro">Cadastrar novo cliente</a>
+
                 <button type="button" class="btn btn-secondary" onclick="atualizarTabela()">Listar Clientes Cadastrados</button>
             </div>
             <div class="table-responsive mt-5">
@@ -38,15 +39,45 @@
             </div>
         </div>
     </div>
+    <!-- Modal de cadastro de clientes -->
+    <div class="modal fade" id="modalCadastro" tabindex="-1" aria-labelledby="modalCadastroLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalCadastroLabel">Cadastrar novo cliente</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label for="nome" class="form-label">Nome</label>
+                            <input type="text" class="form-control" id="nome" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="login" class="form-label">Login</label>
+                            <input type="text" class="form-control" id="login" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="senha" class="form-label">Senha</label>
+                            <input type="password" class="form-control" id="senha" required>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" onclick="cadastrarCliente()">Salvar</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <!-- Adicionar os arquivos JS do Bootstrap -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"  crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.3/umd/popper.min.js"  crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/js/bootstrap.min.js"  crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
 </body>
-
-
 <script>
     function atualizarTabela() {
         $.getJSON("http://localhost:8080/api/usuario/listar", function(data) {
@@ -66,6 +97,41 @@
             }
         });
     }
-
 </script>
+
+<script>
+    function cadastrarCliente() {
+        var nome = document.getElementById("nome").value;
+        var login = document.getElementById("login").value;
+        var senha = document.getElementById("senha").value;
+
+        if (!nome || !login || !senha) {
+            alert("Por favor, preencha todos os campos!");
+            return;
+        }
+
+        var dados = {
+            nome: nome,
+            login: login,
+            senha: senha
+        };
+
+        $.ajax({
+            url: "http://localhost:8080/api/usuario/salvar",
+            type: "POST",
+            data: JSON.stringify(dados),
+            contentType: "application/json",
+            success: function() {
+                alert("Cliente cadastrado com sucesso!");
+                document.getElementById("nome").value = "";
+                document.getElementById("login").value = "";
+                document.getElementById("senha").value = "";
+            },
+            error: function() {
+                alert("Ocorreu um erro ao cadastrar o cliente!");
+            }
+        });
+    }
+</script>
+
 </html>
