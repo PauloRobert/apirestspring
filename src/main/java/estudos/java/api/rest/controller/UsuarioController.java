@@ -51,14 +51,18 @@ public class UsuarioController {
      * @return o usuário salvo ou uma mensagem de erro
      */
     @PostMapping(path = "/salvar")
-    public ResponseEntity<UsuarioModel> salvar(@RequestBody UsuarioModel usuario) {
+    public ResponseEntity<?> salvar(@RequestBody UsuarioModel usuario) {
         try {
+            if (repository.existsByLogin(usuario.getLogin())) {
+                return ResponseEntity.badRequest().body("Já existe um usuário com este login");
+            }
             UsuarioModel usuarioSalvo = repository.save(usuario);
             return ResponseEntity.ok().body(usuarioSalvo);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
+
 
     /**
      * Deleta um usuário pelo código
