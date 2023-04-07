@@ -92,9 +92,11 @@ class UsuarioControllerTest {
     void deveSalvarUsuarioComSucesso() {
         // given
         UsuarioModel usuarioModel = new UsuarioModel();
-        usuarioModel.setCodigo(1);
         usuarioModel.setNome("João");
+        usuarioModel.setLogin("joao123");
+        usuarioModel.setSenha("senha123");
 
+        when(repository.existsByLogin(anyString())).thenReturn(false);
         when(repository.save(any())).thenReturn(usuarioModel);
 
         // when
@@ -102,7 +104,7 @@ class UsuarioControllerTest {
 
         // then
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        assertEquals(usuarioModel, responseEntity.getBody());
+        assertEquals("Usuário cadastrado com sucesso!", responseEntity.getBody());
     }
 
     @Test
