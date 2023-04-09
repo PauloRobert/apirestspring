@@ -80,7 +80,7 @@ public class UsuarioController {
             UsuarioModel usuario = usuarioOpt.get();
             String nomeUsuario = usuario.getNome();
             repository.delete(usuario);
-            return ResponseEntity.ok("Usuário " + nomeUsuario + " deletado com sucesso!");
+            return ResponseEntity.ok("Usuario " + nomeUsuario + " deletado com sucesso!");
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuário não encontrado, já deletado ou nunca cadastrado!");
         }
