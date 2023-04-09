@@ -22,6 +22,10 @@
                 <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCadastro">Cadastrar novo cliente</a>
 
                 <button type="button" class="btn btn-secondary" onclick="atualizarTabela()">Listar Clientes Cadastrados</button>
+                <!-- HTML do elemento de mensagem -->
+                <div id="mensagemtabelaatualizada" class="alert alert-danger" style="display: none;"></div>
+                <!-- HTML do elemento de mensagem -->
+                <div id="mensagem" class="alert alert-success" style="display: none;"></div>
             </div>
             <div class="table-responsive mt-5">
                 <table class="table">
@@ -70,10 +74,8 @@
             </div>
         </div>
     </div>
-    <div class="alert alert-success alert-dismissible fade show d-none" role="alert" id="alerta-sucesso">
-        Cliente cadastrado com sucesso!
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
+
+
 </div>
 
 <!-- Adicionar os arquivos JS do Bootstrap -->
@@ -86,7 +88,9 @@
     function atualizarTabela() {
         $.getJSON("http://localhost:8080/api/usuario/listar", function(data) {
             if (data.length === 0) {
-                alert("Não há clientes cadastrados");
+                // Exibe uma mensagem de alerta caso não haja clientes cadastrados
+                $("#mensagemtabelaatualizada").html("Não há clientes cadastrados.").fadeIn('slow');
+                $("#mensagemtabelaatualizada").fadeOut('slow');
                 return;
             }
 
@@ -99,38 +103,48 @@
                 var senha = data[i].senha;
                 tabela.innerHTML += "<tr><td>" + codigo + "</td><td>" + nome + "</td><td>" + login + "</td><td>" + senha + "</td></tr>";
             }
+        }).fail(function(jqXHR, textStatus, errorThrown) {
+            // Exibe uma mensagem de erro caso ocorra algum problema na requisição
+            $("#mensagemtabelaatualizada").html("Erro ao atualizar tabela: " + errorThrown).fadeIn('slow');
+            $("#mensagemtabelaatualizada").fadeOut('slow');
         });
     }
+
 </script>
 
 <script>
     function cadastrarCliente() {
-        var nome = document.getElementById("nome").value;
-        var login = document.getElementById("login").value;
-        var senha = document.getElementById("senha").value;
+        // Obtém os valores dos campos do formulário
+        var nome = $("#nome").val();
+        var login = $("#login").val();
+        var senha = $("#senha").val();
 
-        var data = {
-            nome: nome,
-            login: login,
-            senha: senha
-        };
+        // Cria um objeto com os dados a serem enviados
+        var dados = {nome: nome, login: login, senha: senha};
 
+        // Envia os dados para o endpoint de salvamento do usuário
         $.ajax({
-            type: "POST",
             url: "http://localhost:8080/api/usuario/salvar",
-            data: JSON.stringify(data),
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: function() {
-                $("#modalCadastro").modal("hide"); // esconde o modal de cadastro
-                $("#alerta-sucesso").removeClass("d-none"); // mostra o alerta de sucesso
-                //Limpando os campos, após digitar
-                $("#nome").val('');
-                $("#login").val('');
-                $("#senha").val('');
+            type: "POST",
+            data: JSON.stringify(dados),
+            contentType: "application/json",
+            success: function(result, status, xhr) {
+                // Verifica se o status code da resposta é 200 (OK)
+                if(xhr.status === 200) {
+                    // Limpa os campos do formulário
+                    $("#nome").val("");
+                    $("#login").val("");
+                    $("#senha").val("");
+                    // Fecha o modal com os dados
+                    $("#modalCadastro").modal("hide");
+                    // Exibe a mensagem de sucesso
+                    $("#mensagem").html("Cadastro realizado com sucesso.").fadeIn();
+                    $("#mensagem").fadeOut('slow');
+                }
             },
-            error: function() {
-                alert("Ocorreu um erro ao cadastrar o cliente!");
+            error: function(xhr, status, error) {
+                // Exibe uma mensagem de erro caso ocorra algum problema na requisição
+                alert("Erro ao salvar usuário: " + error);
             }
         });
     }
