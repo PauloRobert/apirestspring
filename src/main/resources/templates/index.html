@@ -70,10 +70,9 @@
             </div>
         </div>
     </div>
-    <div class="alert alert-success alert-dismissible fade show d-none" role="alert" id="alerta-sucesso">
-        Cliente cadastrado com sucesso!
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
+    <!-- HTML do elemento de mensagem -->
+    <div id="mensagem" class="alert alert-success" style="display: none;"></div>
+
 </div>
 
 <!-- Adicionar os arquivos JS do Bootstrap -->
@@ -105,32 +104,37 @@
 
 <script>
     function cadastrarCliente() {
-        var nome = document.getElementById("nome").value;
-        var login = document.getElementById("login").value;
-        var senha = document.getElementById("senha").value;
+        // Obtém os valores dos campos do formulário
+        var nome = $("#nome").val();
+        var login = $("#login").val();
+        var senha = $("#senha").val();
 
-        var data = {
-            nome: nome,
-            login: login,
-            senha: senha
-        };
+        // Cria um objeto com os dados a serem enviados
+        var dados = {nome: nome, login: login, senha: senha};
 
+        // Envia os dados para o endpoint de salvamento do usuário
         $.ajax({
-            type: "POST",
             url: "http://localhost:8080/api/usuario/salvar",
-            data: JSON.stringify(data),
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: function() {
-                $("#modalCadastro").modal("hide"); // esconde o modal de cadastro
-                $("#alerta-sucesso").removeClass("d-none"); // mostra o alerta de sucesso
-                //Limpando os campos, após digitar
-                $("#nome").val('');
-                $("#login").val('');
-                $("#senha").val('');
+            type: "POST",
+            data: JSON.stringify(dados),
+            contentType: "application/json",
+            success: function(result, status, xhr) {
+                // Verifica se o status code da resposta é 200 (OK)
+                if(xhr.status === 200) {
+                    // Limpa os campos do formulário
+                    $("#nome").val("");
+                    $("#login").val("");
+                    $("#senha").val("");
+                    // Fecha o modal com os dados
+                    $("#modalCadastro").modal("hide");
+                    // Exibe a mensagem de sucesso
+                    $("#mensagem").html("Cadastro realizado com sucesso.").fadeIn();
+                    $("#mensagem").fadeOut();
+                }
             },
-            error: function() {
-                alert("Ocorreu um erro ao cadastrar o cliente!");
+            error: function(xhr, status, error) {
+                // Exibe uma mensagem de erro caso ocorra algum problema na requisição
+                alert("Erro ao salvar usuário: " + error);
             }
         });
     }
