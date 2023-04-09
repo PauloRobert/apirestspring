@@ -59,7 +59,7 @@ public class UsuarioController {
 
             repository.save(usuario);
 
-            return ResponseEntity.ok().body("usuario cadastrado com sucesso");
+            return ResponseEntity.ok().body("Usuário cadastrado com sucesso");
 
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
@@ -80,7 +80,7 @@ public class UsuarioController {
             UsuarioModel usuario = usuarioOpt.get();
             String nomeUsuario = usuario.getNome();
             repository.delete(usuario);
-            return ResponseEntity.ok("Usuario " + nomeUsuario + " deletado com sucesso!");
+            return ResponseEntity.ok("Usuário " + nomeUsuario + " deletado com sucesso!");
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuário não encontrado, já deletado ou nunca cadastrado!");
         }
