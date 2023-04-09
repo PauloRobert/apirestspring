@@ -86,7 +86,7 @@
     function atualizarTabela() {
         $.getJSON("http://localhost:8080/api/usuario/listar", function(data) {
             if (data.length === 0) {
-                alert("Nao ha clientes cadastrados");
+                alert("Não há clientes cadastrados");
                 return;
             }
 
@@ -105,9 +105,9 @@
 
 <script>
     function cadastrarCliente() {
-        var nome = $("#nome").val();
-        var login = $("#login").val();
-        var senha = $("#senha").val();
+        var nome = document.getElementById("nome").value;
+        var login = document.getElementById("login").value;
+        var senha = document.getElementById("senha").value;
 
         var data = {
             nome: nome,
@@ -120,19 +120,18 @@
             url: "http://localhost:8080/api/usuario/salvar",
             data: JSON.stringify(data),
             contentType: "application/json; charset=utf-8",
-            dataType: "json"
-        }).done(function(response) {
-            $("#modalCadastro").modal("hide"); // esconde o modal de cadastro
-            $("#alerta-sucesso").removeClass("d-none"); // mostra o alerta de sucesso
-            // Limpando os campos após digitar
-            $("#nome").val('');
-            $("#login").val('');
-            $("#senha").val('');
-        }).fail(function(jqXHR, textStatus, errorThrown) {
-            console.log(jqXHR);
-            console.log(textStatus);
-            console.log(errorThrown);
-            alert("Ocorreu um erro ao cadastrar o cliente!");
+            dataType: "json",
+            success: function() {
+                $("#modalCadastro").modal("hide"); // esconde o modal de cadastro
+                $("#alerta-sucesso").removeClass("d-none"); // mostra o alerta de sucesso
+                //Limpando os campos, após digitar
+                $("#nome").val('');
+                $("#login").val('');
+                $("#senha").val('');
+            },
+            error: function() {
+                alert("Ocorreu um erro ao cadastrar o cliente!");
+            }
         });
     }
 
