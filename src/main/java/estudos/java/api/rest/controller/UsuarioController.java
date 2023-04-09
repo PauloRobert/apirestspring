@@ -16,9 +16,29 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/usuario")
 public class UsuarioController {
-
     @Autowired
     private UsuarioRepository repository;
+    /**
+     * Salva um usuário
+     *
+     * @param usuario o usuário a ser salvo
+     * @return o usuário salvo ou uma mensagem de erro
+     */
+    @PostMapping(path = "/cadastrar")
+    public ResponseEntity<String> salvar(@Valid @RequestBody UsuarioModel usuario) {
+        try {
+            if (repository.existsByLogin(usuario.getLogin())) {
+                return ResponseEntity.badRequest().body("Já existe um usuário com este login");
+            }
+
+            repository.save(usuario);
+
+            return ResponseEntity.ok().body("Usuário cadastrado com sucesso!");
+
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
 
     /**
      * Consulta um usuário pelo código
@@ -47,27 +67,6 @@ public class UsuarioController {
         return ResponseEntity.ok().body(usuarios);
     }
 
-    /**
-     * Salva um usuário
-     *
-     * @param usuario o usuário a ser salvo
-     * @return o usuário salvo ou uma mensagem de erro
-     */
-    @PostMapping(path = "/salvar")
-    public ResponseEntity<String> salvar(@Valid @RequestBody UsuarioModel usuario) {
-        try {
-            if (repository.existsByLogin(usuario.getLogin())) {
-                return ResponseEntity.badRequest().body("Já existe um usuário com este login");
-            }
-
-            repository.save(usuario);
-
-            return ResponseEntity.ok().body("Usuário cadastrado com sucesso!");
-
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
-    }
 
 
     /**
