@@ -2,6 +2,7 @@ package estudos.java.api.rest.controller;
 
 import estudos.java.api.rest.model.UsuarioModel;
 import estudos.java.api.rest.repository.UsuarioRepository;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -55,7 +56,7 @@ public class UsuarioController {
      * @return o usuário salvo ou uma mensagem de erro
      */
     @PostMapping(path = "/salvar")
-    public ResponseEntity<String> salvar(@RequestBody UsuarioModel usuario) {
+    public ResponseEntity<String> salvar(@Valid @RequestBody UsuarioModel usuario) {
         try {
             if (repository.existsByLogin(usuario.getLogin())) {
                 return ResponseEntity.badRequest().body("Já existe um usuário com este login");
