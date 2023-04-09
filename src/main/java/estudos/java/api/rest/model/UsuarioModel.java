@@ -38,6 +38,7 @@ public class UsuarioModel {
     private  String login;
 
     // Anotação para informar que este atributo é uma coluna obrigatória com tamanho máximo de 10 caracteres
-    @Column(nullable = false, length = 10)
+    @Column(nullable = false, length = 30)
+    @Size(max = 30, message = "A senha não pode ter mais de 10 caracteres")
     private  String senha;
 }
