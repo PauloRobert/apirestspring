@@ -2,6 +2,7 @@ package estudos.java.api.rest.controller;
 
 import estudos.java.api.rest.model.UsuarioModel;
 import estudos.java.api.rest.repository.UsuarioRepository;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,12 +11,34 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
+
+
 @RestController
 @RequestMapping("/api/usuario")
 public class UsuarioController {
-
     @Autowired
     private UsuarioRepository repository;
+    /**
+     * Salva um usuário
+     *
+     * @param usuario o usuário a ser salvo
+     * @return o usuário salvo ou uma mensagem de erro
+     */
+    @PostMapping(path = "/cadastrar")
+    public ResponseEntity<String> salvar(@Valid @RequestBody UsuarioModel usuario) {
+        try {
+            if (repository.existsByLogin(usuario.getLogin())) {
+                return ResponseEntity.badRequest().body("Já existe um usuário com este login");
+            }
+
+            repository.save(usuario);
+
+            return ResponseEntity.ok().body("Usuário cadastrado com sucesso!");
+
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
 
     /**
      * Consulta um usuário pelo código
@@ -44,27 +67,6 @@ public class UsuarioController {
         return ResponseEntity.ok().body(usuarios);
     }
 
-    /**
-     * Salva um usuário
-     *
-     * @param usuario o usuário a ser salvo
-     * @return o usuário salvo ou uma mensagem de erro
-     */
-    @PostMapping(path = "/salvar")
-    public ResponseEntity<String> salvar(@RequestBody UsuarioModel usuario) {
-        try {
-            if (repository.existsByLogin(usuario.getLogin())) {
-                return ResponseEntity.badRequest().body("Já existe um usuário com este login");
-            }
-
-            repository.save(usuario);
-
-            return ResponseEntity.ok().body("Usuário cadastrado com sucesso!");
-
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
-    }
 
 
     /**
