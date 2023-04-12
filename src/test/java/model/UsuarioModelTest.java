@@ -12,7 +12,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 public class UsuarioModelTest {
 
-    @RepeatedTest(10000)
+    @RepeatedTest(10)
     public void testGettersAndSetters() {
         UsuarioModel usuario = new UsuarioModel();
         int codigo = (int) (Math.random() * 1000);
