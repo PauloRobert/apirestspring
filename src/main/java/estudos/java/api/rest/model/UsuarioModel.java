@@ -10,7 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import lombok.Data;
+
 
 // Anotação para criação automática de getters e setters, construtor padrão e outros métodos úteis do Lombok
 @NoArgsConstructor
