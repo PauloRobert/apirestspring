@@ -56,14 +56,17 @@
                         <div class="mb-3">
                             <label for="nome" class="form-label">Nome</label>
                             <input type="text" class="form-control" id="nome" required>
+                            <div class="invalid-feedback">O nome é obrigatório e não pode ter mais de 50 caracteres.</div>
                         </div>
                         <div class="mb-3">
                             <label for="login" class="form-label">Login</label>
                             <input type="text" class="form-control" id="login" required>
+                            <div class="invalid-feedback">O login é obrigatório.</div>
                         </div>
                         <div class="mb-3">
                             <label for="senha" class="form-label">Senha</label>
                             <input type="password" class="form-control" id="senha" required>
+                            <div class="invalid-feedback">A senha é obrigatória.</div>
                         </div>
                     </form>
                 </div>
@@ -122,9 +125,23 @@
 <script>
     function cadastrarCliente() {
         // Obtém os valores dos campos do formulário
-        var nome = $("#nome").val();
-        var login = $("#login").val();
-        var senha = $("#senha").val();
+        var nome = $("#nome").val().trim();
+        var login = $("#login").val().trim();
+        var senha = $("#senha").val().trim();
+
+        // Verifica se os campos estão preenchidos corretamente
+        if (nome === "" || login === "" || senha === "") {
+            // Exibe uma mensagem de erro
+            $(".form-control").addClass("is-invalid");
+            return false;
+        } else if (nome.length > 50) {
+            // Exibe uma mensagem de erro
+            $("#nome").addClass("is-invalid");
+            return false;
+        } else {
+            // Remove as mensagens de erro, caso existam
+            $(".form-control").removeClass("is-invalid");
+        }
 
         // Cria um objeto com os dados a serem enviados
         var dados = {nome: nome, login: login, senha: senha};
