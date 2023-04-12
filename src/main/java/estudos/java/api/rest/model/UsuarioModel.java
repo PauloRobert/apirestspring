@@ -10,6 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 
 // Anotação para criação automática de getters e setters, construtor padrão e outros métodos úteis do Lombok
@@ -41,4 +42,9 @@ public class UsuarioModel {
     @Column(nullable = false, length = 30)
     @Size(max = 30, message = "A senha não pode ter mais de 10 caracteres")
     private  String senha;
+
+    public void setSenha(String senha) {
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        this.senha = passwordEncoder.encode(senha);
+    }
 }
