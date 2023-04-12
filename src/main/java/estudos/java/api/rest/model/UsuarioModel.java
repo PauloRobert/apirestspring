@@ -12,6 +12,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import java.util.concurrent.ThreadLocalRandom;
+
 
 // Anotação para criação automática de getters e setters, construtor padrão e outros métodos úteis do Lombok
 @NoArgsConstructor
@@ -44,7 +46,9 @@ public class UsuarioModel {
     private  String senha;
 
     public void setSenha(String senha) {
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        //Gerando o custo da senha aleatóriamente, isso impedirá que um invasor saiba o padrão de senhas utilizado
+        int randomCusto = ThreadLocalRandom.current().nextInt(5, 16);
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(randomCusto);
         this.senha = passwordEncoder.encode(senha);
     }
 }
