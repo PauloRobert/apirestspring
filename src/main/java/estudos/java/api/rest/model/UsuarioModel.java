@@ -49,7 +49,7 @@ public class UsuarioModel {
     public void setSenha(String senha) {
         // Gerando o custo da senha aleatoriamente, impedindo que um invasor conheça o padrão de senhas utilizado
         SecureRandom secureRandom = new SecureRandom();
-        int randomCusto = 2 + secureRandom.nextInt(5);
+        int randomCusto = 5 + secureRandom.nextInt(5);
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(randomCusto);
         this.senha = passwordEncoder.encode(senha);
     }
