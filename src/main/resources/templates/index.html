@@ -66,7 +66,7 @@
                         <div class="mb-3">
                             <label for="senha" class="form-label">Senha</label>
                             <input type="password" class="form-control" id="senha" required>
-                            <div class="invalid-feedback">A senha é obrigatória e não pode ter mais de 20 caracteres.</div>
+                            <div class="invalid-feedback">A senha é obrigatória e de conter entre 10 e 20 caracteres.</div>
                         </div>
                     </form>
                 </div>
@@ -142,9 +142,9 @@
             // Exibe uma mensagem de erro
             $("#login").addClass("is-invalid");
             return false;
-        }else if (senha.length < 10 && senha.length >20) {
+        }else if (senha.length < 10 || senha.length >20) {
             // Exibe uma mensagem de erro
-            $("#login").addClass("is-invalid");
+            $("#senha").addClass("is-invalid");
             return false;
         }
         else {
