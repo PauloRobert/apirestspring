@@ -61,7 +61,7 @@
                         <div class="mb-3">
                             <label for="login" class="form-label">Login</label>
                             <input type="text" class="form-control" id="login" required>
-                            <div class="invalid-feedback">O login é obrigatório.</div>
+                            <div class="invalid-feedback">O login e não pode ter mais de 50 caracteres.</div>
                         </div>
                         <div class="mb-3">
                             <label for="senha" class="form-label">Senha</label>
@@ -138,7 +138,11 @@
             // Exibe uma mensagem de erro
             $("#nome").addClass("is-invalid");
             return false;
-        } else {
+        }  else if (login.length > 50) {
+            // Exibe uma mensagem de erro
+            $("#login").addClass("is-invalid");
+            return false;
+        }else {
             // Remove as mensagens de erro, caso existam
             $(".form-control").removeClass("is-invalid");
         }
