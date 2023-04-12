@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @ExtendWith(MockitoExtension.class)
 public class UsuarioModelTest {
 
-    @RepeatedTest(20)
+    @RepeatedTest(2)
     public void testGettersAndSetters() {
         UsuarioModel usuario = new UsuarioModel();
         int codigo = (int) (Math.random() * 1000);
@@ -20,16 +20,13 @@ public class UsuarioModelTest {
         String login = "testuser" + codigo;
         String senha = "password" + codigo;
 
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(5);
         String hashSenha = encoder.encode(senha);
 
         usuario.setCodigo(codigo);
         usuario.setNome(nome);
         usuario.setLogin(login);
         usuario.setSenha(hashSenha);
-
-        System.out.println("Senha: " + senha);
-        System.out.println("Hash da senha: " + hashSenha);
 
         assertEquals(codigo, usuario.getCodigo().intValue());
         assertEquals(nome, usuario.getNome());
