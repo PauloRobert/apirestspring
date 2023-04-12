@@ -35,12 +35,12 @@ public class UsuarioModel {
     @Column(nullable = false, length = 30)
     @NonNull
     @NotBlank(message = "O login é obrigatório")
-    @Size(max = 30, message = "O login não pode ter mais de 10 caracteres")
+    @Size(max = 30, message = "O login não pode ter mais de 30 caracteres")
     private  String login;
 
     // Anotação para informar que este atributo é uma coluna obrigatória com tamanho máximo de 10 caracteres
-    @Column(nullable = false, length = 30)
-    @Size(max = 30, message = "A senha não pode ter mais de 10 caracteres")
+    @Column(nullable = false, length = 200)
+    @Size(max = 200, message = "A senha não pode ter mais de 30 caracteres")
     private  String senha;
 
     public void setSenha(String senha) {
