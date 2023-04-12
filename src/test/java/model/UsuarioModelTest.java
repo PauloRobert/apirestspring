@@ -1,19 +1,21 @@
 package model;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-
 import estudos.java.api.rest.model.UsuarioModel;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
 public class UsuarioModelTest {
 
     @RepeatedTest(10)
     public void testGettersAndSetters() {
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
+
         UsuarioModel usuario = new UsuarioModel();
         int codigo = (int) (Math.random() * 1000);
         String nome = "Test User " + codigo;
@@ -23,12 +25,12 @@ public class UsuarioModelTest {
         usuario.setCodigo(codigo);
         usuario.setNome(nome);
         usuario.setLogin(login);
-        usuario.setSenha(senha);
+        usuario.setSenha(encoder.encode(senha));
 
         assertEquals(codigo, usuario.getCodigo().intValue());
         assertEquals(nome, usuario.getNome());
         assertEquals(login, usuario.getLogin());
-        assertEquals(senha, usuario.getSenha());
+        assertTrue(encoder.matches(senha, usuario.getSenha()));
     }
 
     @Test
