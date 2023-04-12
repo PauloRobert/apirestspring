@@ -85,8 +85,15 @@
 
 </body>
 <script>
+
+    var apiUrl;
+    if (window.location.hostname === "localhost") {
+        apiUrl = "http://localhost:8080";
+    } else {
+        apiUrl = "https://apirestcadastro.herokuapp.com";
+    }
     function atualizarTabela() {
-        $.getJSON("http://localhost:8080/api/usuario/listar", function(data) {
+        $.getJSON(apiUrl + "/api/usuario/listar", function(data) {
             if (data.length === 0) {
                 // Exibe uma mensagem de alerta caso não haja clientes cadastrados
                 $("#mensagemtabelaatualizada").html("Não há clientes cadastrados.").fadeIn('slow');
@@ -124,7 +131,7 @@
 
         // Envia os dados para o endpoint de salvamento do usuário
         $.ajax({
-            url: "http://localhost:8080/api/usuario/cadastrar",
+            url: apiUrl + "/api/usuario/cadastrar",
             type: "POST",
             data: JSON.stringify(dados),
             contentType: "application/json",
