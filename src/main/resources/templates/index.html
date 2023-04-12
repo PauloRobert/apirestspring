@@ -140,6 +140,7 @@
                     // Exibe a mensagem de sucesso
                     $("#mensagem").html("Cadastro realizado com sucesso.").fadeIn();
                     $("#mensagem").fadeOut('slow');
+                    atualizarTabela();
                 }
             },
             error: function(xhr, status, error) {

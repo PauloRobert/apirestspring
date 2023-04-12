@@ -10,7 +10,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import lombok.Data;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+import java.util.concurrent.ThreadLocalRandom;
+
 
 // Anotação para criação automática de getters e setters, construtor padrão e outros métodos úteis do Lombok
 @NoArgsConstructor
@@ -34,11 +37,18 @@ public class UsuarioModel {
     @Column(nullable = false, length = 30)
     @NonNull
     @NotBlank(message = "O login é obrigatório")
-    @Size(max = 30, message = "O login não pode ter mais de 10 caracteres")
+    @Size(max = 30, message = "O login não pode ter mais de 30 caracteres")
     private  String login;
 
     // Anotação para informar que este atributo é uma coluna obrigatória com tamanho máximo de 10 caracteres
-    @Column(nullable = false, length = 30)
-    @Size(max = 30, message = "A senha não pode ter mais de 10 caracteres")
+    @Column(nullable = false, length = 200)
+    @Size(max = 200, message = "A senha não pode ter mais de 30 caracteres")
     private  String senha;
+
+    public void setSenha(String senha) {
+        //Gerando o custo da senha aleatóriamente, isso impedirá que um invasor saiba o padrão de senhas utilizado
+        int randomCusto = ThreadLocalRandom.current().nextInt(5, 16);
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(randomCusto);
+        this.senha = passwordEncoder.encode(senha);
+    }
 }
