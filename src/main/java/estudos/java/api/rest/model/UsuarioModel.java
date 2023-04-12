@@ -12,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import java.security.SecureRandom;
 import java.util.concurrent.ThreadLocalRandom;
 
 
@@ -46,9 +47,11 @@ public class UsuarioModel {
     private  String senha;
 
     public void setSenha(String senha) {
-        //Gerando o custo da senha aleatóriamente, isso impedirá que um invasor saiba o padrão de senhas utilizado
-        int randomCusto = ThreadLocalRandom.current().nextInt(5, 16);
+        // Gerando o custo da senha aleatoriamente, impedindo que um invasor conheça o padrão de senhas utilizado
+        SecureRandom secureRandom = new SecureRandom();
+        int randomCusto = 11 + secureRandom.nextInt(5);
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(randomCusto);
         this.senha = passwordEncoder.encode(senha);
     }
+
 }
