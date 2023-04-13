@@ -14,7 +14,7 @@ import javax.persistence.Id;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.security.SecureRandom;
-
+import java.time.LocalDateTime;
 
 
 // Anotação para criação automática de getters e setters, construtor padrão e outros métodos úteis do Lombok
@@ -50,6 +50,12 @@ public class UsuarioModel {
 
     public void setSenha(String senha) {
         this.senha = Utils.criptografarSenha(senha);
+    }
+    @Column(nullable = false)
+    private LocalDateTime dataHoraCadastro;
+
+    public void setDataHoraCadastro(LocalDateTime dataHoraCadastro) {
+        this.dataHoraCadastro = dataHoraCadastro;
     }
 
 }
