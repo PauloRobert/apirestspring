@@ -1,5 +1,6 @@
 package estudos.java.api.rest.model;
 
+import estudos.java.api.rest.utils.Utils;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
@@ -13,7 +14,7 @@ import javax.persistence.Id;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.security.SecureRandom;
-import java.util.concurrent.ThreadLocalRandom;
+
 
 
 // Anotação para criação automática de getters e setters, construtor padrão e outros métodos úteis do Lombok
@@ -22,6 +23,7 @@ import java.util.concurrent.ThreadLocalRandom;
 // Anotação para informar que esta classe é uma entidade de banco de dados
 @Entity
 public class UsuarioModel {
+
     // Anotação para informar que este atributo é uma chave primária e que deve ser gerada automaticamente pelo banco de dados
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -47,11 +49,7 @@ public class UsuarioModel {
     private  String senha;
 
     public void setSenha(String senha) {
-        // Gerando o custo da senha aleatoriamente, impedindo que um invasor conheça o padrão de senhas utilizado
-        SecureRandom secureRandom = new SecureRandom();
-        int randomCusto = 5 + secureRandom.nextInt(5);
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(randomCusto);
-        this.senha = passwordEncoder.encode(senha);
+        this.senha = Utils.criptografarSenha(senha);
     }
 
 }
