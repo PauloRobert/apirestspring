@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,7 +33,7 @@ public class UsuarioController {
                 return ResponseEntity.badRequest().body("Já existe um usuário com este login");
             }
 
-            usuario.setDataHoraCadastro(LocalDateTime.now());
+            usuario.setDataHoraCadastro(LocalDateTime.now(ZoneId.of("America/Sao_Paulo")));
             repository.save(usuario);
 
             return ResponseEntity.ok().body("Usuário cadastrado com sucesso!");
