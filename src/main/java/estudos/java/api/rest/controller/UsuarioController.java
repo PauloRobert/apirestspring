@@ -78,7 +78,7 @@ public class UsuarioController {
      * @param codigo o código do usuário a ser deletado
      * @return uma mensagem de sucesso ou de erro
      */
-    @DeleteMapping(path = "/{codigo}")
+    @DeleteMapping(path = "/deletar/{codigo}")
     public ResponseEntity<String> deletar(@PathVariable("codigo") Integer codigo) {
         Optional<UsuarioModel> usuarioOpt = repository.findById(codigo);
         if (usuarioOpt.isPresent()) {
