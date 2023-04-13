@@ -111,7 +111,8 @@
                 var nome = data[i].nome;
                 var login = data[i].login;
                 var senha = data[i].senha;
-                tabela.innerHTML += "<tr><td>" + codigo + "</td><td>" + nome + "</td><td>" + login + "</td><td>" + senha + "</td></tr>";
+                var dataHoraCadastro = data[i].dataHoraCadastro;
+                tabela.innerHTML += "<tr><td>" + codigo + "</td><td>" + nome + "</td><td>" + login + "</td><td>" + senha + "</td><td>" + dataHoraCadastro + "</td></tr>";
             }
         }).fail(function(jqXHR, textStatus, errorThrown) {
             // Exibe uma mensagem de erro caso ocorra algum problema na requisição
