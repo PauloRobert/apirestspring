@@ -36,6 +36,7 @@
                         <th scope="col">Login</th>
                         <th scope="col">Senha</th>
                         <th scope="col">Cadastrado em:</th>
+                        <th scope="col">Ações</th>
                     </tr>
                     </thead>
                     <tbody id="tabela-clientes">
@@ -101,7 +102,9 @@
             if (data.length === 0) {
                 // Exibe uma mensagem de alerta caso não haja clientes cadastrados
                 $("#mensagemtabelaatualizada").html("Não há clientes cadastrados.").fadeIn('slow');
-                $("#mensagemtabelaatualizada").fadeOut('slow');
+                setTimeout(function() {
+                    $("#mensagemtabelaatualizada").fadeOut('slow');
+                }, 3000);
                 return;
             }
 
@@ -113,14 +116,27 @@
                 var login = data[i].login;
                 var senha = data[i].senha;
                 var dataHoraCadastro = data[i].dataHoraCadastro;
-                tabela.innerHTML += "<tr><td>" + codigo + "</td><td>" + nome + "</td><td>" + login + "</td><td>" + senha + "</td><td>" + dataHoraCadastro + "</td></tr>";
+                tabela.innerHTML +=
+                    "<tr>" +
+                    "<td>" + codigo + "</td>" +
+                    "<td>" + nome + "</td>" +
+                    "<td>" + login + "</td>" +
+                    "<td>" + senha + "</td>" +
+                    "<td>" + dataHoraCadastro + "</td>" +
+                    "<td>" + "<button class='btn btn-danger btn-sm' onClick='deletarUsuario(" + codigo + ")'>Deletar</button>" + "</td>" +
+                    "</tr>";
             }
+
+
         }).fail(function(jqXHR, textStatus, errorThrown) {
             // Exibe uma mensagem de erro caso ocorra algum problema na requisição
             $("#mensagemtabelaatualizada").html("Erro ao atualizar tabela: " + errorThrown).fadeIn('slow');
-            $("#mensagemtabelaatualizada").fadeOut('slow');
+            setTimeout(function() {
+                $("#mensagemtabelaatualizada").fadeOut('slow');
+            }, 3000);
         });
     }
+
 
 </script>
 
@@ -183,6 +199,28 @@
                 alert("Erro ao salvar usuário: " + error);
             }
         });
+    }
+
+</script>
+<script>
+    function deletarUsuario(codigo) {
+        if (confirm("Tem certeza que deseja deletar o usuário?")) {
+            // Chame o endpoint de deleção do usuário
+            $.ajax({
+                url: apiUrl + "/api/usuario/deletar/" + codigo,
+                type: "DELETE",
+                success: function(result) {
+                    // Atualize a tabela após a deleção
+                    atualizarTabela();
+                    // Exiba uma mensagem de sucesso
+                    $("#mensagem").text("Usuário deletado com sucesso.").show().delay(3000).fadeOut();
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    // Exiba uma mensagem de erro
+                    $("#mensagem").text("Erro ao deletar usuário: " + textStatus).show().delay(3000).fadeOut();
+                }
+            });
+        }
     }
 
 </script>
