@@ -90,5 +90,30 @@ public class UsuarioController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuário não encontrado, já deletado ou nunca cadastrado!");
         }
     }
+    /**
+     * Atualiza os dados de um usuário pelo código
+     *
+     * @param codigo o código do usuário a ser atualizado
+     * @param usuario os novos dados do usuário
+     * @return uma mensagem de sucesso ou de erro
+     */
+    @PutMapping(path = "/atualizar/{codigo}")
+    public ResponseEntity<String> atualizar(@PathVariable("codigo") Integer codigo, @Valid @RequestBody UsuarioModel usuario) {
+        try {
+            Optional<UsuarioModel> usuarioOpt = repository.findById(codigo);
+            if (usuarioOpt.isPresent()) {
+                UsuarioModel usuarioAtualizado = usuarioOpt.get();
+                usuarioAtualizado.setNome(usuario.getNome());
+                usuarioAtualizado.setSenha(usuario.getSenha());
+                repository.save(usuarioAtualizado);
+                return ResponseEntity.ok("Usuário atualizado com sucesso!");
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuário não encontrado, já deletado ou nunca cadastrado!");
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
 
 }
