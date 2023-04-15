@@ -121,10 +121,11 @@ class UsuarioControllerTest {
         when(repository.save(any())).thenThrow(new RuntimeException());
 
         // when
-        ResponseEntity<?> responseEntity = usuarioController.salvar(usuarioModel);
+        ResponseEntity<String> responseEntity = usuarioController.salvar(usuarioModel);
 
         // then
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, responseEntity.getStatusCode());
+        assertEquals("Erro ao cadastrar usuário", responseEntity.getBody());
     }
 
     @RepeatedTest(10)
