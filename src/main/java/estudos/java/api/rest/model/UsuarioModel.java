@@ -11,9 +11,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
-import java.security.SecureRandom;
 import java.time.LocalDateTime;
 
 

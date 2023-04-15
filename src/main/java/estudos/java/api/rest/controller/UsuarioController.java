@@ -1,6 +1,7 @@
 package estudos.java.api.rest.controller;
 
 import estudos.java.api.rest.model.UsuarioModel;
+import estudos.java.api.rest.model.UsuarioDTO;
 import estudos.java.api.rest.repository.UsuarioRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +19,10 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/usuario")
 public class UsuarioController {
+
     @Autowired
     private UsuarioRepository repository;
+
     /**
      * Salva um usuário
      *
@@ -90,5 +93,35 @@ public class UsuarioController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuário não encontrado, já deletado ou nunca cadastrado!");
         }
     }
+    /**
+     * Atualiza os dados de um usuário pelo código
+     *
+     * @param codigo o código do usuário a ser atualizado
+     * @param usuario os novos dados do usuário
+     * @return uma mensagem de sucesso ou de erro
+     */
+    @PutMapping(path = "/atualizar/{codigo}")
+    public ResponseEntity<String> atualizar(@PathVariable("codigo") Integer codigo, @Valid @RequestBody UsuarioDTO usuarioDTO) {
+        try {
+            Optional<UsuarioModel> usuarioOpt = repository.findById(codigo);
+            if (usuarioOpt.isPresent()) {
+                UsuarioModel usuarioAtualizado = usuarioOpt.get();
+                if (usuarioDTO.getNome() != null) {
+                    usuarioAtualizado.setNome(usuarioDTO.getNome());
+                }
+                if (usuarioDTO.getSenha() != null) {
+                    usuarioAtualizado.setSenha(usuarioDTO.getSenha());
+                }
+                // Não é mais necessário verificar o campo Login
+                repository.save(usuarioAtualizado);
+                return ResponseEntity.ok("Usuário atualizado com sucesso!");
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuário não encontrado, já deletado ou nunca cadastrado!");
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
 
 }

@@ -1,10 +1,12 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8" />
     <title>Cadastro de Clientes</title>
+    <meta content="text/html; charset=utf-8" />
     <!-- Adicionar os arquivos CSS do Bootstrap -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/css/bootstrap.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -89,9 +91,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/js/bootstrap.min.js"  crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 </body>
-<script>
 
-    var apiUrl;
+<script>
+   var apiUrl;
     if (window.location.hostname === "localhost") {
         apiUrl = "http://localhost:8080";
     } else {
@@ -127,7 +129,6 @@
                     "</tr>";
             }
 
-
         }).fail(function(jqXHR, textStatus, errorThrown) {
             // Exibe uma mensagem de erro caso ocorra algum problema na requisição
             $("#mensagemtabelaatualizada").html("Erro ao atualizar tabela: " + errorThrown).fadeIn('slow');
@@ -136,10 +137,7 @@
             }, 3000);
         });
     }
-
-
 </script>
-
 <script>
     function cadastrarCliente() {
         // Obtém os valores dos campos do formulário
@@ -200,7 +198,6 @@
             }
         });
     }
-
 </script>
 <script>
     function deletarUsuario(codigo) {
@@ -222,7 +219,5 @@
             });
         }
     }
-
 </script>
-
 </html>
