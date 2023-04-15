@@ -109,13 +109,16 @@ public class UsuarioController {
                 if (usuario.getSenha() != null) {
                     usuarioAtualizado.setSenha(usuario.getSenha());
                 }
+                if (usuario.getLogin() != null) {
+                    return ResponseEntity.badRequest().body("Não é possível atualizar o login!");
+                }
                 repository.save(usuarioAtualizado);
                 return ResponseEntity.ok("Usuário atualizado com sucesso!");
             } else {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuário não encontrado, já deletado ou nunca cadastrado!");
             }
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Não foi possível atualizar o usuário: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 
