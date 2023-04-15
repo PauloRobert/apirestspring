@@ -114,25 +114,6 @@ class UsuarioControllerTest {
         assertEquals("Usuário cadastrado com sucesso!", responseEntity.getBody());
     }
 
-    @Disabled
-    @Test
-    @DisplayName("Cadastrar usuário com erro")
-    void deveRetornarInternalServerErrorQuandoSalvarUsuarioComErro() {
-        // given
-        UsuarioModel usuarioModel = new UsuarioModel();
-        usuarioModel.setCodigo(1);
-        usuarioModel.setNome("João");
-
-        when(repository.save(any())).thenThrow(new RuntimeException());
-
-        // when
-        ResponseEntity<String> responseEntity = usuarioController.salvar(usuarioModel);
-
-        // then
-        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, responseEntity.getStatusCode());
-        assertEquals("Erro ao cadastrar usuário", responseEntity.getBody());
-    }
-
     @RepeatedTest(10)
     @DisplayName("Deletar usuário com sucesso")
     void deveDeletarUsuarioComSucesso() {
@@ -210,6 +191,4 @@ class UsuarioControllerTest {
         assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
         assertEquals("Já existe um usuário com este login", responseEntity.getBody());
     }
-
-
 }
