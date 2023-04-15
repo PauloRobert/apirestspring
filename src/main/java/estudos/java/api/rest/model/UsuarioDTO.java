@@ -1,32 +1,34 @@
 package estudos.java.api.rest.model;
 
-public class UsuarioDTO {
-    public Integer getCodigo() {
-        return codigo;
-    }
+import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-    public void setCodigo(Integer codigo) {
-        this.codigo = codigo;
-    }
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.time.LocalDateTime;
 
-    public String getNome() {
-        return nome;
-    }
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public class UsuarioDTO {
 
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
+        private Integer codigo;
 
-    public String getSenha() {
-        return senha;
-    }
+        @NotBlank(message = "O nome é obrigatório")
+        @Size(max = 50, message = "O nome não pode ter mais de 50 caracteres")
+        private String nome;
 
-    public void setSenha(String senha) {
-        this.senha = senha;
-    }
+        @NotBlank(message = "O login é obrigatório")
+        @Size(max = 30, message = "O login não pode ter mais de 30 caracteres")
+        private String login;
 
-    private Integer codigo;
-    private String nome;
-    private String senha;
+        @NotNull(message = "A senha é obrigatória")
+        @Size(max = 200, message = "A senha não pode ter mais de 200 caracteres")
+        private String senha;
 
+        @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+        private LocalDateTime dataHoraCadastro;
 } // NOSONAR
