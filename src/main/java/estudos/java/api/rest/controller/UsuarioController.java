@@ -18,8 +18,10 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/usuario")
 public class UsuarioController {
+
     @Autowired
     private UsuarioRepository repository;
+
     /**
      * Salva um usuário
      *
