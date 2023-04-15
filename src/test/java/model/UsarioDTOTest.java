@@ -1,11 +1,13 @@
 package model;
 
 import estudos.java.api.rest.model.*;
-import estudos.java.api.rest.utils.*;
+import jakarta.validation.ConstraintViolationException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import java.time.LocalDateTime;
 import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class UsarioDTOTest {
 
@@ -29,44 +31,36 @@ public class UsarioDTOTest {
     }
 
     @Test
-    void deveValidarCamposObrigatorios() {
+    public void testNomeSize() {
         UsuarioDTO usuarioDTO = new UsuarioDTO();
+        usuarioDTO.setNome("Nome com mais de 50 caracteres....................................");
+        usuarioDTO.setLogin("login");
+        usuarioDTO.setSenha("senha");
 
-        Exception exception = Assertions.assertThrows(
-                javax.validation.ConstraintViolationException.class,
-                () -> {
-                    Utils.getValidator().validate(usuarioDTO);
-                }
-        );
-
-        String expectedMessage = "O nome é obrigatório";
-        String actualMessage = exception.getMessage();
-        Assertions.assertTrue(actualMessage.contains(expectedMessage));
-
-        usuarioDTO.setNome("João");
-
-        exception = Assertions.assertThrows(
-                javax.validation.ConstraintViolationException.class,
-                () -> {
-                    Utils.getValidator().validate(usuarioDTO);
-                }
-        );
-
-        expectedMessage = "O login é obrigatório";
-        actualMessage = exception.getMessage();
-        Assertions.assertTrue(actualMessage.contains(expectedMessage));
-
-        usuarioDTO.setLogin("joao123");
-
-        exception = Assertions.assertThrows(
-                javax.validation.ConstraintViolationException.class,
-                () -> {
-                    Utils.getValidator().validate(usuarioDTO);
-                }
-        );
-
-        expectedMessage = "A senha é obrigatória";
-        actualMessage = exception.getMessage();
-        Assertions.assertTrue(actualMessage.contains(expectedMessage));
+        assertThrows(ConstraintViolationException.class, () -> usuarioDTO.validate());
+        assertEquals("O nome não pode ter mais de 50 caracteres", usuarioDTO.getConstraintViolations().iterator().next().getMessage());
     }
+
+    @Test
+    public void testLoginSize() {
+        UsuarioDTO usuarioDTO = new UsuarioDTO();
+        usuarioDTO.setNome("nome");
+        usuarioDTO.setLogin("Login com mais de 30 caracteres.................................");
+        usuarioDTO.setSenha("senha");
+
+        assertThrows(ConstraintViolationException.class, () -> usuarioDTO.validate());
+        assertEquals("O login não pode ter mais de 30 caracteres", usuarioDTO.getConstraintViolations().iterator().next().getMessage());
+    }
+
+    @Test
+    public void testSenhaSize() {
+        UsuarioDTO usuarioDTO = new UsuarioDTO();
+        usuarioDTO.setNome("nome");
+        usuarioDTO.setLogin("login");
+        usuarioDTO.setSenha("Senha com mais de 200 caracteres.......................................................................................................................................................");
+
+        assertThrows(ConstraintViolationException.class, () -> usuarioDTO.validate());
+        assertEquals("A senha não pode ter mais de 200 caracteres", usuarioDTO.getConstraintViolations().iterator().next().getMessage());
+    }
+
 }

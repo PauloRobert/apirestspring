@@ -1,11 +1,11 @@
 package estudos.java.api.rest.utils;
 
 import estudos.java.api.rest.model.UsuarioDTO;
+import jakarta.validation.Validation;
+import jakarta.validation.Validator;
+import jakarta.validation.ValidatorFactory;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import javax.validation.Validation;
-import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
 import java.security.SecureRandom;
 
 public final class Utils {
