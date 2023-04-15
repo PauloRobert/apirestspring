@@ -1,13 +1,7 @@
 package estudos.java.api.rest.utils;
 
-import estudos.java.api.rest.model.UsuarioDTO;
-import jakarta.validation.Validation;
-import jakarta.validation.Validator;
-import jakarta.validation.ValidatorFactory;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
 import java.security.SecureRandom;
-
 public final class Utils {
 
     // Construtor privado para impedir a instanciação da classe
@@ -20,15 +14,4 @@ public final class Utils {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(randomCusto);
         return passwordEncoder.encode(senha);
     }
-
-    // Método estático para criar um objeto Validator
-    public static Validator getValidator() {
-        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-        return factory.getValidator();
-    }
-
-    // Método estático para validar o objeto usuarioDTO
-    public static void validarUsuarioDTO(UsuarioDTO usuarioDTO) {
-        Validator validator = getValidator();
-        validator.validate(usuarioDTO);
-    }}
+}

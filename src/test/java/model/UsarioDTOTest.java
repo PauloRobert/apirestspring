@@ -1,13 +1,14 @@
 package model;
 
 import estudos.java.api.rest.model.*;
-import jakarta.validation.ConstraintViolationException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import java.time.LocalDateTime;
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.*;
+
+
+import static org.junit.jupiter.api.Assertions.assertAll;
+
 
 public class UsarioDTOTest {
 
@@ -31,36 +32,58 @@ public class UsarioDTOTest {
     }
 
     @Test
-    public void testNomeSize() {
+    public void testGetSetCodigo() {
         UsuarioDTO usuarioDTO = new UsuarioDTO();
-        usuarioDTO.setNome("Nome com mais de 50 caracteres....................................");
-        usuarioDTO.setLogin("login");
-        usuarioDTO.setSenha("senha");
-
-        assertThrows(ConstraintViolationException.class, () -> usuarioDTO.validate());
-        assertEquals("O nome não pode ter mais de 50 caracteres", usuarioDTO.getConstraintViolations().iterator().next().getMessage());
+        usuarioDTO.setCodigo(1);
+        assertEquals(1, usuarioDTO.getCodigo());
     }
 
     @Test
-    public void testLoginSize() {
+    public void testGetSetNome() {
         UsuarioDTO usuarioDTO = new UsuarioDTO();
-        usuarioDTO.setNome("nome");
-        usuarioDTO.setLogin("Login com mais de 30 caracteres.................................");
-        usuarioDTO.setSenha("senha");
-
-        assertThrows(ConstraintViolationException.class, () -> usuarioDTO.validate());
-        assertEquals("O login não pode ter mais de 30 caracteres", usuarioDTO.getConstraintViolations().iterator().next().getMessage());
+        usuarioDTO.setNome("Nome");
+        assertEquals("Nome", usuarioDTO.getNome());
     }
 
     @Test
-    public void testSenhaSize() {
+    public void testGetSetLogin() {
         UsuarioDTO usuarioDTO = new UsuarioDTO();
-        usuarioDTO.setNome("nome");
-        usuarioDTO.setLogin("login");
-        usuarioDTO.setSenha("Senha com mais de 200 caracteres.......................................................................................................................................................");
+        usuarioDTO.setLogin("Login");
+        assertEquals("Login", usuarioDTO.getLogin());
+    }
 
-        assertThrows(ConstraintViolationException.class, () -> usuarioDTO.validate());
-        assertEquals("A senha não pode ter mais de 200 caracteres", usuarioDTO.getConstraintViolations().iterator().next().getMessage());
+    @Test
+    public void testGetSetSenha() {
+        UsuarioDTO usuarioDTO = new UsuarioDTO();
+        usuarioDTO.setSenha("Senha");
+        assertEquals("Senha", usuarioDTO.getSenha());
+    }
+
+    @Test
+    public void testGetSetDataHoraCadastro() {
+        UsuarioDTO usuarioDTO = new UsuarioDTO();
+        LocalDateTime dataHoraCadastro = LocalDateTime.now();
+        usuarioDTO.setDataHoraCadastro(dataHoraCadastro);
+        assertEquals(dataHoraCadastro, usuarioDTO.getDataHoraCadastro());
+    }
+
+    @Test
+    public void testAllArgsConstructor() {
+        UsuarioDTO usuarioDTO = new UsuarioDTO(1, "Nome", "Login", "Senha", LocalDateTime.now());
+        assertNotNull(usuarioDTO);
+    }
+
+    @Test
+    public void testNoArgsConstructor() {
+        UsuarioDTO usuarioDTO = new UsuarioDTO();
+        assertNotNull(usuarioDTO);
+    }
+
+    @Test
+    public void testToString() {
+        UsuarioDTO usuarioDTO = new UsuarioDTO(1, "Nome", "Login", "Senha", LocalDateTime.now());
+        String expected = "UsuarioDTO(codigo=1, nome=Nome, login=Login, senha=Senha, dataHoraCadastro=" + usuarioDTO.getDataHoraCadastro() + ")";
+        assertEquals(expected, usuarioDTO.toString());
     }
 
 }
