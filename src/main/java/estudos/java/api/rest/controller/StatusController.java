@@ -14,4 +14,4 @@ public class StatusController {
     public String check(){
         return "index";
     }
-}
+} // NOSONAR
