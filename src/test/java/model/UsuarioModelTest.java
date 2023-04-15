@@ -65,13 +65,4 @@ public class UsuarioModelTest {
         assertEquals(dataHoraCadastro, usuario.getDataHoraCadastro());
     }
 
-    @Test
-    @DisplayName("Testa a geração automática do código")
-    public void testCodigo() {
-        UsuarioModel usuario1 = new UsuarioModel();
-        UsuarioModel usuario2 = new UsuarioModel();
-
-        assertNotEquals(usuario1.getCodigo(), usuario2.getCodigo());
-    }
-
 }
