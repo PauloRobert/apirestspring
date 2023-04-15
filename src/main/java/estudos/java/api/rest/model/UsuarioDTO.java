@@ -29,4 +29,4 @@ public class UsuarioDTO {
     private String nome;
     private String senha;
 
-}
+} // NOSONAR
