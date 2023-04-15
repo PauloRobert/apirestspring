@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -65,7 +66,7 @@ class UsuarioControllerTest {
         assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
     }
 
-   @Disabled
+    @Test
     @DisplayName("Listar usuários cadastrados")
     void deveListarUsuariosCadastrados() {
         // given
@@ -79,14 +80,18 @@ class UsuarioControllerTest {
 
         List<UsuarioModel> usuarios = Arrays.asList(usuarioModel1, usuarioModel2);
 
-        when(repository.findAll()).thenReturn(usuarios);
+        Mockito.when(repository.findAll()).thenReturn(usuarios);
 
         // when
         ResponseEntity<List<UsuarioDTO>> responseEntity = usuarioController.listar();
 
         // then
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        assertEquals(usuarios, responseEntity.getBody());
+        assertEquals(usuarios.size(), responseEntity.getBody().size());
+        assertEquals(usuarios.get(0).getCodigo(), responseEntity.getBody().get(0).getCodigo());
+        assertEquals(usuarios.get(0).getNome(), responseEntity.getBody().get(0).getNome());
+        assertEquals(usuarios.get(1).getCodigo(), responseEntity.getBody().get(1).getCodigo());
+        assertEquals(usuarios.get(1).getNome(), responseEntity.getBody().get(1).getNome());
     }
 
     @Test
