@@ -1,6 +1,7 @@
 package estudos.java.api.rest.controller;
 
 import estudos.java.api.rest.model.UsuarioModel;
+import estudos.java.api.rest.model.UsuarioDTO;
 import estudos.java.api.rest.repository.UsuarioRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -100,20 +101,18 @@ public class UsuarioController {
      * @return uma mensagem de sucesso ou de erro
      */
     @PutMapping(path = "/atualizar/{codigo}")
-    public ResponseEntity<String> atualizar(@PathVariable("codigo") Integer codigo, @Valid @RequestBody UsuarioModel usuario) {
+    public ResponseEntity<String> atualizar(@PathVariable("codigo") Integer codigo, @Valid @RequestBody UsuarioDTO usuarioDTO) {
         try {
             Optional<UsuarioModel> usuarioOpt = repository.findById(codigo);
             if (usuarioOpt.isPresent()) {
                 UsuarioModel usuarioAtualizado = usuarioOpt.get();
-                if (usuario.getNome() != null) {
-                    usuarioAtualizado.setNome(usuario.getNome());
+                if (usuarioDTO.getNome() != null) {
+                    usuarioAtualizado.setNome(usuarioDTO.getNome());
                 }
-                if (usuario.getSenha() != null) {
-                    usuarioAtualizado.setSenha(usuario.getSenha());
+                if (usuarioDTO.getSenha() != null) {
+                    usuarioAtualizado.setSenha(usuarioDTO.getSenha());
                 }
-                if (usuario.getLogin() != null) {
-                    return ResponseEntity.badRequest().body("Não é possível atualizar o login!");
-                }
+                // Não é mais necessário verificar o campo Login
                 repository.save(usuarioAtualizado);
                 return ResponseEntity.ok("Usuário atualizado com sucesso!");
             } else {
