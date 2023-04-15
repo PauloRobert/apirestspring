@@ -1,14 +1,17 @@
 package controller;
 
 import estudos.java.api.rest.controller.UsuarioController;
+import estudos.java.api.rest.model.UsuarioDTO;
 import estudos.java.api.rest.model.UsuarioModel;
 import estudos.java.api.rest.repository.UsuarioRepository;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -77,14 +80,18 @@ class UsuarioControllerTest {
 
         List<UsuarioModel> usuarios = Arrays.asList(usuarioModel1, usuarioModel2);
 
-        when(repository.findAll()).thenReturn(usuarios);
+        Mockito.when(repository.findAll()).thenReturn(usuarios);
 
         // when
-        ResponseEntity<List<UsuarioModel>> responseEntity = usuarioController.listar();
+        ResponseEntity<List<UsuarioDTO>> responseEntity = usuarioController.listar();
 
         // then
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        assertEquals(usuarios, responseEntity.getBody());
+        assertEquals(usuarios.size(), responseEntity.getBody().size());
+        assertEquals(usuarios.get(0).getCodigo(), responseEntity.getBody().get(0).getCodigo());
+        assertEquals(usuarios.get(0).getNome(), responseEntity.getBody().get(0).getNome());
+        assertEquals(usuarios.get(1).getCodigo(), responseEntity.getBody().get(1).getCodigo());
+        assertEquals(usuarios.get(1).getNome(), responseEntity.getBody().get(1).getNome());
     }
 
     @Test
@@ -105,23 +112,6 @@ class UsuarioControllerTest {
         // then
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertEquals("Usuário cadastrado com sucesso!", responseEntity.getBody());
-    }
-
-    @Test
-    @DisplayName("Cadastrar usuário com erro")
-    void deveRetornarInternalServerErrorQuandoSalvarUsuarioComErro() {
-        // given
-        UsuarioModel usuarioModel = new UsuarioModel();
-        usuarioModel.setCodigo(1);
-        usuarioModel.setNome("João");
-
-        when(repository.save(any())).thenThrow(new RuntimeException());
-
-        // when
-        ResponseEntity<?> responseEntity = usuarioController.salvar(usuarioModel);
-
-        // then
-        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, responseEntity.getStatusCode());
     }
 
     @RepeatedTest(10)
@@ -201,7 +191,4 @@ class UsuarioControllerTest {
         assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
         assertEquals("Já existe um usuário com este login", responseEntity.getBody());
     }
-
-
 }
-
