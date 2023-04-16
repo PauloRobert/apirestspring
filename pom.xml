@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>estudos.java</groupId>
 	<artifactId>api-rest-spring</artifactId>
-	<version>2.2.2-SNAPSHOT</version>
+	<version>2.2.3-SNAPSHOT</version>
 	<name>Api Rest Spring</name>
 	<description>Api Rest Spring</description>
 	<properties>
