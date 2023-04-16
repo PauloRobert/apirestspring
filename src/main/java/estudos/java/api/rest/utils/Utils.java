@@ -1,9 +1,7 @@
 package estudos.java.api.rest.utils;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
 import java.security.SecureRandom;
-
 public final class Utils {
 
     // Construtor privado para impedir a instanciação da classe
@@ -16,6 +14,4 @@ public final class Utils {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(randomCusto);
         return passwordEncoder.encode(senha);
     }
-
-    // Outros métodos estáticos úteis podem ser adicionados aqui
 }
