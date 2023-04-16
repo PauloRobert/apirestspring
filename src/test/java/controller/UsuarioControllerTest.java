@@ -191,4 +191,61 @@ class UsuarioControllerTest {
         assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
         assertEquals("Já existe um usuário com este login", responseEntity.getBody());
     }
+
+    @Test
+    @DisplayName("Testa atualização de usuário existente")
+    void testAtualizarUsuarioExistente() {
+        // Dados de entrada
+        Integer codigo = 1;
+        UsuarioDTO usuarioDTO = new UsuarioDTO();
+        usuarioDTO.setNome("João");
+        usuarioDTO.setLogin("joao123");
+        usuarioDTO.setSenha("123456");
+
+        // Mocks
+        UsuarioModel usuarioModel = new UsuarioModel();
+        usuarioModel.setCodigo(codigo);
+        usuarioModel.setNome("Antonio");
+        usuarioModel.setLogin("antonio123");
+        usuarioModel.setSenha("senha123");
+
+        when(repository.findById(codigo)).thenReturn(Optional.of(usuarioModel));
+        when(repository.save(any())).thenReturn(usuarioModel);
+
+        // Execução
+        ResponseEntity<String> response = usuarioController.atualizar(codigo, usuarioDTO);
+
+        // Verificações
+        verify(repository, times(1)).findById(codigo);
+        verify(repository, times(1)).save(any());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals("Usuário atualizado com sucesso!", response.getBody());
+
+        // Verifica se as informações do usuário foram atualizadas corretamente
+        assertEquals("João", usuarioModel.getNome());
+        assertEquals("joao123", usuarioModel.getLogin());
+    }
+
+    @Test
+    @DisplayName("Testa atualização de usuário inexistente")
+    void testAtualizarUsuarioInexistente() {
+        // Dados de entrada
+        Integer codigo = 2;
+        UsuarioDTO usuarioDTO = new UsuarioDTO();
+        usuarioDTO.setNome("João");
+        usuarioDTO.setLogin("joao123");
+        usuarioDTO.setSenha("123456");
+
+        // Mocks
+        when(repository.findById(codigo)).thenReturn(Optional.empty());
+
+        // Execução
+        ResponseEntity<String> response = usuarioController.atualizar(codigo, usuarioDTO);
+
+        // Verificações
+        verify(repository, times(1)).findById(codigo);
+        verify(repository, never()).save(any());
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+        assertEquals("Usuário não encontrado, já deletado ou nunca cadastrado!", response.getBody());
+    }
 }
