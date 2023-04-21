@@ -33,3 +33,15 @@ Em seguida, basta seguir as seguintes etapas:
 - Acesse a página inicial em seu navegador em http://localhost:8080/.
 
 O projeto também pode ser executado em uma IDE como Eclipse ou IntelliJ, utilizando as mesmas etapas acima.
+
+### Hospedagem
+
+Este projeto está hospedado no Heroku e pode ser acessado através do seguinte link:
+
+ https://apirestcadastro.herokuapp.com/
+
+### Contribuição
+
+Este é um projeto para estudos e está em construção. 
+Caso encontre um bug ou tenha alguma sugestão de melhoria, por favor abra uma issue ou submeta um pull request.
+
