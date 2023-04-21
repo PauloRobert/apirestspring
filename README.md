@@ -23,3 +23,13 @@ As tecnologias utilizadas neste projeto incluem:
 - Java 
 - HTML/CSS/JS (bootstrap/jquery)
 
+### Como executar o projeto
+
+Para executar este projeto, é necessário ter o Java 11 instalado em sua máquina. 
+Em seguida, basta seguir as seguintes etapas:
+
+- Clone o repositório em sua máquina local.
+- Navegue até a pasta do projeto e execute o comando mvn spring-boot:run no terminal.
+- Acesse a página inicial em seu navegador em http://localhost:8080/.
+
+O projeto também pode ser executado em uma IDE como Eclipse ou IntelliJ, utilizando as mesmas etapas acima.
