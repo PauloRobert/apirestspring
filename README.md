@@ -1,8 +1,11 @@
 # API Rest com Spring Boot - Cadastro de Usuários
+
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=PauloRobert_apirestspring&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=PauloRobert_apirestspring)
+
+
 Este projeto é uma API Rest construída com Java e Spring Boot para realizar o cadastro de usuários em um banco de dados H2. 
 Ele utiliza as melhores práticas de desenvolvimento para garantir alta qualidade de código e escalabilidade.
 
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=PauloRobert_apirestspring&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=PauloRobert_apirestspring)
 
 ### Funcionalidades
 
