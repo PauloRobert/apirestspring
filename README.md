@@ -42,6 +42,6 @@ Este projeto está hospedado no Heroku e pode ser acessado através do seguinte 
 
 ### Contribuição
 
-Este é um projeto para estudos e está em construção. 
+Este é um projeto para estudos e está em construção.
 Caso encontre um bug ou tenha alguma sugestão de melhoria, por favor abra uma issue ou submeta um pull request.
 
