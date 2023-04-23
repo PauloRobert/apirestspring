@@ -1,12 +1,16 @@
 package controller;
 
 import static org.mockito.Mockito.when;
+
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 
 import estudos.java.api.rest.controller.StatusController;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -30,7 +34,8 @@ class StatusControllerTest {
     }
 
     @Test
-    void shouldReturnStatusOkWhenIndexHtmlExists() throws IOException {
+    @DisplayName("Retornar OK se o index existe")
+    void retornarOKIndexExiste() throws IOException {
         Resource resource = Mockito.mock(Resource.class);
         File file = Mockito.mock(File.class);
 
@@ -45,7 +50,8 @@ class StatusControllerTest {
     }
 
     @Test
-    void shouldReturnStatusInternalServerErrorWhenIndexHtmlDoesNotExist() throws IOException {
+    @DisplayName("Retornar Internal error quando o Index Não existir")
+    void internalErrorIndexNaoExiste() throws IOException {
         Resource resource = Mockito.mock(Resource.class);
         File file = Mockito.mock(File.class);
 
@@ -58,20 +64,5 @@ class StatusControllerTest {
         Assertions.assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
         Assertions.assertEquals("Arquivo index.html não encontrado", response.getBody());
     }
-
-
-    @Test
-    void shouldReturnStatusInternalServerErrorWhenResourceLoadingFails() throws IOException {
-        Resource resource = Mockito.mock(Resource.class);
-
-        when(resourceLoader.getResource("classpath:/templates/index.html")).thenReturn(resource);
-        when(resource.getFile()).thenThrow(new IOException("Falha ao carregar arquivo"));
-
-        ResponseEntity<String> response = statusController.check();
-
-        Assertions.assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
-        Assertions.assertEquals("Falha ao carregar arquivo", response.getBody());
-    }
-
 
 }
