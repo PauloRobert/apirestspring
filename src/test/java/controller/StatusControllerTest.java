@@ -2,10 +2,8 @@ package controller;
 
 import static org.mockito.Mockito.when;
 
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 
 import estudos.java.api.rest.controller.StatusController;
 import org.junit.jupiter.api.Assertions;
