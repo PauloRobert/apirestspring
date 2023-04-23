@@ -62,5 +62,4 @@ class StatusControllerTest {
         Assertions.assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
         Assertions.assertEquals("Arquivo index.html não encontrado", response.getBody());
     }
-
 }
