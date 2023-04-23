@@ -59,4 +59,19 @@ class StatusControllerTest {
         Assertions.assertEquals("Arquivo index.html não encontrado", response.getBody());
     }
 
+
+    @Test
+    void shouldReturnStatusInternalServerErrorWhenResourceLoadingFails() throws IOException {
+        Resource resource = Mockito.mock(Resource.class);
+
+        when(resourceLoader.getResource("classpath:/templates/index.html")).thenReturn(resource);
+        when(resource.getFile()).thenThrow(new IOException("Falha ao carregar arquivo"));
+
+        ResponseEntity<String> response = statusController.check();
+
+        Assertions.assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+        Assertions.assertEquals("Falha ao carregar arquivo", response.getBody());
+    }
+
+
 }
