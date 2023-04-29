@@ -38,7 +38,7 @@ Em seguida, basta seguir as seguintes etapas:
 O projeto também pode ser executado em uma IDE como Eclipse ou IntelliJ, utilizando as mesmas etapas acima.
 
 
-### Segurança de chaves e segredos
+### Gitleaks - Segurança de chaves e segredos
 
 Foi incluido no build.yml uma entrada para a ferramenta Gitleaks, que faz uma varredura no código afim de encontrar dados sensiveis como senhas, secrets e keys que não deveriam estar expostos, mas por algum motivo estão.
 Essa ferramenta faz a busac em todo o repositório e por fim barra o build se houver algum dado sensivel exposto.
@@ -53,6 +53,8 @@ Essa ferramenta faz a busac em todo o repositório e por fim barra o build se ho
 Este projeto está hospedado no Heroku e pode ser acessado através do seguinte link:
 
  https://apirestcadastro.herokuapp.com/
+
+![img.png](img/front/img.png)
 
 ### Contribuição
 
