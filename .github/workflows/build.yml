@@ -18,6 +18,7 @@ jobs:
         with:
           java-version: 11
           architecture: 'x64'
+          jdk-use-cache: true
       - name: Cache SonarCloud packages
         uses: actions/cache@v1
         with:
