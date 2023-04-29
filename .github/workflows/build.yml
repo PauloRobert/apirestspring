@@ -30,7 +30,7 @@ jobs:
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
       - name: Gitleaks scan
-        uses: zricethezav/gitleaks-action@v8
+        uses: gitleaks/gitleaks-action@v2
         with:
           repo: ${{ github.repository }}
           commit: ${{ github.event.pull_request.head.sha }}
