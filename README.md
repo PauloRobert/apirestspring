@@ -48,6 +48,19 @@ Essa ferramenta faz a busac em todo o repositório e por fim barra o build se ho
 
 #### Gitleaks COM dados expostos
 ![img_1.png](img/gitleaks/img_1.png) ![img_2.png](img/gitleaks/img_2.png)
+
+#### Gitleaks Local
+
+Para testar a ferramenta localmente Baixe o binário do Gitleaks do repositório oficial no GitHub: https://github.com/zricethezav/gitleaks/releases, inclua nas variáveis de ambiente e após isso é possível executar o comando abaixo em sua IDE para ver o resultado da análise.
+
+##### SEM report - Somente os logs no console
+`gitleaks detect --verbose --redact`
+
+##### COM report - Arquivo fisico para análise posterior
+`gitleaks detect --verbose --redact --report-format json --report-path "../apirestspring/report.json`
+
+![img.png](img/gitleaks/report.png)
+
 ### Hospedagem
 
 Este projeto está hospedado no Heroku e pode ser acessado através do seguinte link:
