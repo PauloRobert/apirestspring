@@ -61,14 +61,6 @@ Para testar a ferramenta localmente Baixe o binário do Gitleaks do repositório
 
 ![img.png](img/gitleaks/report.png)
 
-### Hospedagem
-
-Este projeto está hospedado no Heroku e pode ser acessado através do seguinte link:
-
- https://apirestcadastro.herokuapp.com/
-
-![img.png](img/front/img.png)
-
 ### Contribuição
 
 Este é um projeto para estudos e está em construção. <br/>
