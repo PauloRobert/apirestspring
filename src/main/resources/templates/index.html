@@ -97,7 +97,7 @@
     if (window.location.hostname === "localhost") {
         apiUrl = "http://localhost:8080";
     } else {
-        apiUrl = "https://apirestcadastro.herokuapp.com";
+        apiUrl = "https://apirestcadastro.azurewebsites.net";
     }
     function atualizarTabela() {
         $.getJSON(apiUrl + "/api/usuario/listar", function(data) {
