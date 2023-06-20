@@ -89,11 +89,8 @@ public class UsuarioController {
         }
     }
 
-
-
-
     @GetMapping(path = "/acessoEmail")
-    public ResponseEntity<String> acessoEmail(@RequestParam("tituloEmail") String tituloEmail) {
+    public ResponseEntity<String> acessoEmail() {
         try {
             // Configurar as propriedades para acessar o servidor IMAP do Gmail
             Properties props = new Properties();
@@ -111,40 +108,14 @@ public class UsuarioController {
             Store store = session.getStore("imaps");
             store.connect("imap.gmail.com", username, password);
 
-            // Acessar a pasta de entrada (inbox)
-            Folder inbox = store.getFolder("INBOX");
-            inbox.open(Folder.READ_ONLY);
-
-            // Procurar pelos emails com o título especificado
-            Message[] messages = inbox.search(new SubjectTerm(tituloEmail));
-
-            // Verificar se há algum email encontrado
-            if (messages.length > 0) {
-                // Ler o primeiro email encontrado
-                Message email = messages[0];
-
-                // Aqui você pode fazer o processamento necessário com o email, como obter o conteúdo, remetente, data etc.
-                // Exemplo:
-                String remetente = email.getFrom()[0].toString();
-                Object conteudo = email.getContent();
-
-                // Se o conteúdo for uma instância de MimeMultipart, você pode extrair o texto do email
-                if (conteudo instanceof MimeMultipart) {
-                    MimeMultipart mimeMultipart = (MimeMultipart) conteudo;
-                    conteudo = mimeMultipart.getBodyPart(0).getContent().toString();
-                }
-
-                // Retornar a resposta com os detalhes do email
-                return ResponseEntity.ok("Email encontrado. Remetente: " + remetente + ", Conteúdo: " + conteudo);
-            } else {
-                // Caso nenhum email seja encontrado com o título especificado
-                return ResponseEntity.ok("Nenhum email encontrado com o título: " + tituloEmail);
-            }
+            // Retornar a resposta indicando que o login foi bem-sucedido
+            return ResponseEntity.ok("Login no Gmail realizado com sucesso!");
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao acessar o email do Gmail");
         }
     }
+
 
 
 }
