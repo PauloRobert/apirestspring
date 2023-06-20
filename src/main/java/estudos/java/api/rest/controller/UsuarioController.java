@@ -3,6 +3,7 @@ package estudos.java.api.rest.controller;
 import estudos.java.api.rest.model.UsuarioDTO;
 import estudos.java.api.rest.model.UsuarioModel;
 import estudos.java.api.rest.repository.UsuarioRepository;
+import jakarta.mail.Message;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,13 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.List;
 import java.util.Optional;
+import java.util.Properties;
 import java.util.stream.Collectors;
+import jakarta.mail.*;
+import jakarta.mail.search.SubjectTerm;
+import jakarta.mail.internet.MimeMultipart;
+
+import java.util.Properties;
 
 @RestController
 @RequestMapping("/api/usuario")
@@ -81,4 +88,34 @@ public class UsuarioController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuário não encontrado, já deletado ou nunca cadastrado!");
         }
     }
+
+    @GetMapping(path = "/acessoEmail")
+    public ResponseEntity<String> acessoEmail() {
+        try {
+            // Configurar as propriedades para acessar o servidor IMAP do Gmail
+            Properties props = new Properties();
+            props.setProperty("mail.store.protocol", "imaps");
+            props.setProperty("mail.imap.ssl.enable", "true");
+            props.setProperty("mail.imap.host", "imap.gmail.com");
+            props.setProperty("mail.imap.port", "993");
+
+            // Configurar as credenciais de acesso ao Gmail
+            String username = "taxcoe@gmail.com";
+            String password = "dtt.2015";
+
+            // Estabelecer a conexão com o servidor IMAP do Gmail
+            Session session = Session.getInstance(props, null);
+            Store store = session.getStore("imaps");
+            store.connect("imap.gmail.com", username, password);
+
+            // Retornar a resposta indicando que o login foi bem-sucedido
+            return ResponseEntity.ok("Login no Gmail realizado com sucesso!");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao acessar o email do Gmail");
+        }
+    }
+
+
+
 }
