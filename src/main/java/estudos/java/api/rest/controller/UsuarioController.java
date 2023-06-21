@@ -3,7 +3,9 @@ package estudos.java.api.rest.controller;
 import estudos.java.api.rest.model.UsuarioDTO;
 import estudos.java.api.rest.model.UsuarioModel;
 import estudos.java.api.rest.repository.UsuarioRepository;
-import jakarta.mail.Message;
+import jakarta.mail.*;
+import jakarta.mail.internet.InternetAddress;
+import jakarta.mail.internet.MimeMessage;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,11 +19,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Properties;
 import java.util.stream.Collectors;
-import jakarta.mail.*;
-import jakarta.mail.search.SubjectTerm;
-import jakarta.mail.internet.MimeMultipart;
-
-import java.util.Properties;
 
 @RestController
 @RequestMapping("/api/usuario")
@@ -88,34 +85,41 @@ public class UsuarioController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuário não encontrado, já deletado ou nunca cadastrado!");
         }
     }
-
-    @GetMapping(path = "/acessoEmail")
+    @GetMapping("/acessoEmail")
     public ResponseEntity<String> acessoEmail() {
         try {
-            // Configurar as propriedades para acessar o servidor IMAP do Gmail
+            // Configurar as propriedades para acessar o servidor SMTP do Gmail
             Properties props = new Properties();
-            props.setProperty("mail.store.protocol", "imaps");
-            props.setProperty("mail.imap.ssl.enable", "true");
-            props.setProperty("mail.imap.host", "imap.gmail.com");
-            props.setProperty("mail.imap.port", "993");
+            props.put("mail.smtp.auth", "true");
+            props.put("mail.smtp.starttls.enable", "true");
+            props.put("mail.smtp.host", "smtp.gmail.com");
+            props.put("mail.smtp.port", "587");
 
             // Configurar as credenciais de acesso ao Gmail
-            String username = "taxcoe@gmail.com";
-            String password = "dtt.2015";
+            String username = "email@gmail.com";
+            String password = "senha";
 
-            // Estabelecer a conexão com o servidor IMAP do Gmail
-            Session session = Session.getInstance(props, null);
-            Store store = session.getStore("imaps");
-            store.connect("imap.gmail.com", username, password);
+            // Criar uma sessão com as propriedades e autenticação
+            Session session = Session.getInstance(props, new Authenticator() {
+                protected PasswordAuthentication getPasswordAuthentication() {
+                    return new PasswordAuthentication(username, password);
+                }
+            });
 
-            // Retornar a resposta indicando que o login foi bem-sucedido
-            return ResponseEntity.ok("Login no Gmail realizado com sucesso!");
-        } catch (Exception e) {
+            // Criar uma mensagem de email
+            Message message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(username));
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse("evans_sp@hotmail.com"));
+            message.setSubject("Exemplo de email enviado pelo Jakarta Mail API");
+            message.setText("Olá, este é um exemplo de email enviado pelo Jakarta Mail API.");
+
+            // Enviar o email
+            Transport.send(message);
+
+            return ResponseEntity.ok("Email enviado com sucesso!");
+        } catch (MessagingException e) {
             e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao acessar o email do Gmail");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao enviar o email");
         }
     }
-
-
-
 }
