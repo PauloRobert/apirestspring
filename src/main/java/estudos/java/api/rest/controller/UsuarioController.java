@@ -3,9 +3,6 @@ package estudos.java.api.rest.controller;
 import estudos.java.api.rest.model.UsuarioDTO;
 import estudos.java.api.rest.model.UsuarioModel;
 import estudos.java.api.rest.repository.UsuarioRepository;
-import jakarta.mail.*;
-import jakarta.mail.internet.InternetAddress;
-import jakarta.mail.internet.MimeMessage;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +14,6 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.List;
 import java.util.Optional;
-import java.util.Properties;
 import java.util.stream.Collectors;
 
 @RestController
@@ -83,43 +79,6 @@ public class UsuarioController {
             return ResponseEntity.ok("Usuário atualizado com sucesso!");
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuário não encontrado, já deletado ou nunca cadastrado!");
-        }
-    }
-    @GetMapping("/acessoEmail")
-    public ResponseEntity<String> acessoEmail() {
-        try {
-            // Configurar as propriedades para acessar o servidor SMTP do Gmail
-            Properties props = new Properties();
-            props.put("mail.smtp.auth", "true");
-            props.put("mail.smtp.starttls.enable", "true");
-            props.put("mail.smtp.host", "smtp.gmail.com");
-            props.put("mail.smtp.port", "587");
-
-            // Configurar as credenciais de acesso ao Gmail
-            String username = "email@gmail.com";
-            String password = "senha";
-
-            // Criar uma sessão com as propriedades e autenticação
-            Session session = Session.getInstance(props, new Authenticator() {
-                protected PasswordAuthentication getPasswordAuthentication() {
-                    return new PasswordAuthentication(username, password);
-                }
-            });
-
-            // Criar uma mensagem de email
-            Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress(username));
-            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse("evans_sp@hotmail.com"));
-            message.setSubject("Exemplo de email enviado pelo Jakarta Mail API");
-            message.setText("Olá, este é um exemplo de email enviado pelo Jakarta Mail API.");
-
-            // Enviar o email
-            Transport.send(message);
-
-            return ResponseEntity.ok("Email enviado com sucesso!");
-        } catch (MessagingException e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao enviar o email");
         }
     }
 }
