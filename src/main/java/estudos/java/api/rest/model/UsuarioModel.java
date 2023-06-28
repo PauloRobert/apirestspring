@@ -35,7 +35,6 @@ public class UsuarioModel {
 
     // Anotação para informar que este atributo é uma coluna obrigatória com tamanho máximo de 10 caracteres e que não pode ser nulo
     @Column(nullable = false, length = 30)
-    @NonNull
     @NotBlank(message = "O login é obrigatório")
     @Size(max = 30, message = "O login não pode ter mais de 30 caracteres")
     private  String login;
