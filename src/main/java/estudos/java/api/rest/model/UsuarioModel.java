@@ -45,7 +45,10 @@ public class UsuarioModel {
     private  String senha;
 
     public void setSenha(String senha) {
-        this.senha = Utils.criptografarSenha(senha);
+
+        if (senha != null) {
+            this.senha = Utils.criptografarSenha(senha);
+        }
     }
     @Column(nullable = false)
     private LocalDateTime dataHoraCadastro;
