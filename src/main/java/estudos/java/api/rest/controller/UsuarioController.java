@@ -74,13 +74,17 @@ public class UsuarioController {
         Optional<UsuarioModel> usuarioOpt = repository.findById(codigo);
         if (usuarioOpt.isPresent()) {
             UsuarioModel usuarioAtualizado = usuarioOpt.get();
-            BeanUtils.copyProperties(usuarioDTO, usuarioAtualizado, "codigo");
+            usuarioAtualizado.setNome(usuarioDTO.getNome());
+            usuarioAtualizado.setSenha(usuarioDTO.getSenha());
             usuarioAtualizado.setDataHoraCadastro(LocalDateTime.now(ZoneId.of("America/Sao_Paulo")));
+            // Restante das propriedades que você deseja atualizar, excluindo o campo "login"
+
             repository.save(usuarioAtualizado);
             return ResponseEntity.ok("Usuário atualizado com sucesso!");
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuário não encontrado, já deletado ou nunca cadastrado!");
         }
     }
+
 
 }
