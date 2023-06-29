@@ -5,12 +5,8 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.lang.NonNull;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 
@@ -34,7 +30,7 @@ public class UsuarioModel {
     private String nome;
 
     // Anotação para informar que este atributo é uma coluna obrigatória com tamanho máximo de 10 caracteres e que não pode ser nulo
-    @Column(length = 30)
+    @Column(nullable = false, length = 30)
     @NotBlank(message = "O login é obrigatório")
     @Size(max = 30, message = "O login não pode ter mais de 30 caracteres")
     private  String login;
