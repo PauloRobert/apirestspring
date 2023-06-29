@@ -223,8 +223,9 @@ class UsuarioControllerTest {
 
         // Verifica se as informações do usuário foram atualizadas corretamente
         assertEquals("João", usuarioModel.getNome());
-        assertEquals("joao123", usuarioModel.getLogin());
+        assertEquals("joao123", usuarioDTO.getLogin());
     }
+
 
     @Test
     @DisplayName("Testa atualização de usuário inexistente")
