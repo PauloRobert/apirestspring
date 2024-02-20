@@ -14,7 +14,7 @@
 	<name>Api Rest Spring</name>
 	<description>Api Rest Spring</description>
 	<properties>
-		<java.version>1.8</java.version>
+		<java.version>17</java.version>
 		<lombok.version>1.18.28</lombok.version>
 		<mockito-core.version>5.3.1</mockito-core.version>
 		<junit-jupiter-api.version>5.9.3</junit-jupiter-api.version>
