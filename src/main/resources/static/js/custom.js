@@ -87,7 +87,15 @@ function deletarUsuario(codigo) {
             url: apiUrl + "/api/usuario/deletar/" + codigo,
             type: "DELETE",
             success: function() {
-                atualizarTabela();
+                // Remover a linha do cliente deletado diretamente da tabela
+                $("#tabela-clientes tr").each(function() {
+                    var row = $(this);
+                    if (row.find("td:first").text() == codigo) {
+                        row.remove();  // Remove a linha da tabela
+                    }
+                });
+
+                // Mostrar mensagem de sucesso
                 $("#mensagem").text("Usuário deletado com sucesso.").show().delay(3000).fadeOut();
             },
             error: function(jqXHR, textStatus, errorThrown) {
