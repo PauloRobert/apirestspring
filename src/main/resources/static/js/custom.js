@@ -1,9 +1,4 @@
-var apiUrl;
-if (window.location.hostname === "localhost") {
-    apiUrl = "http://localhost:8080";
-} else {
-    apiUrl = "https://apirestcadastro.azurewebsites.net";
-}
+var apiUrl = "http://localhost:8080";  // TODO: Substituir pela URL de produção quando disponível
 
 function atualizarTabela() {
     $.getJSON(apiUrl + "/api/usuario/listar", function(data) {
