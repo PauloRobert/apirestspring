@@ -113,22 +113,19 @@
 			<artifactId>spring-security-crypto</artifactId>
 			<version>5.6.0</version>
 		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-actuator</artifactId>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/io.micrometer/micrometer-registry-prometheus -->
-		<dependency>
-			<groupId>io.micrometer</groupId>
-			<artifactId>micrometer-registry-prometheus</artifactId>
-			<version>1.10.6</version>
-		</dependency>
 		<!-- https://mvnrepository.com/artifact/javax.validation/validation-api -->
 		<dependency>
 			<groupId>javax.validation</groupId>
 			<artifactId>validation-api</artifactId>
 			<version>2.0.1.Final</version>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-dependency-plugin -->
+		<dependency>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-dependency-plugin</artifactId>
+			<version>3.8.0</version>
+		</dependency>
+
 
 	</dependencies>
 	<build>
@@ -163,6 +160,19 @@
 					<source>11</source>
 					<target>11</target>
 				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<version>3.8.0</version> <!-- Verifique a última versão disponível -->
+				<executions>
+					<execution>
+						<goals>
+							<goal>analyze</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 
 		</plugins>
